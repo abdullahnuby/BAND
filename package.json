@@ -1,8 +1,8 @@
 {
   "name": "band-quantity-takeoff",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "private": true,
-  "description": "BAND — simple guided apartment estimate with automatic opening deductions and contractor material procurement.",
+  "description": "BAND — owner-first apartment/building estimate with simple inputs, material quantity ranges and transparent budget assumptions.",
   "type": "module",
   "engines": {
     "node": ">=20"

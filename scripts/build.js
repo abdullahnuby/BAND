@@ -44,4 +44,5 @@ await copyFile(resolve(root, 'public/band-logo.svg'), resolve(outDir, 'band-logo
 await copyFile(resolve(root, 'src/shared/quantity-rules.js'), resolve(outDir, 'quantity-rules.js'));
 await copyFile(resolve(root, 'src/shared/material-rules.js'), resolve(outDir, 'material-rules.js'));
 await copyFile(resolve(root, 'src/shared/workflow-routes.js'), resolve(outDir, 'workflow-routes.js'));
+await copyFile(resolve(root, 'src/shared/quick-estimator.js'), resolve(outDir, 'quick-estimator.js'));
 console.log(`BAND build passed: ${jsFiles.length} server/API JS files + ${scripts.length} HTML script blocks checked.`);

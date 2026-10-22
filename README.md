@@ -147,3 +147,10 @@ Default consumption rates are only editable starting assumptions. See [`docs/MAT
 - Tile size details, extended estimate calculations, and material consumption rate editing are hidden behind optional advanced sections.
 - The contractor workspace leads with quantity-to-material entry and compact procurement result cards; engineering takeoff summaries are optional.
 - See `docs/RELEASE-NOTES-2.5.0.md`.
+
+
+## BAND 2.6.0 — owner-first estimate
+
+The apartment/building estimate asks for area, room counts, current handover stage and finish level. Stage and finish level are visual choices; facade/window/balcony details remain optional. The results begin with a budget range, materials/labor allowance, key quantities, then the grouped procurement list and optional trade-cost allocation. The engine is currently explicit rules plus published reference ranges—not a machine-learning model trained on hundreds of verified BOQs.
+
+Read [`docs/OWNER-ESTIMATOR-METHODOLOGY.md`](docs/OWNER-ESTIMATOR-METHODOLOGY.md) before using estimates.

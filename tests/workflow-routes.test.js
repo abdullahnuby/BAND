@@ -35,12 +35,13 @@ test('contractor entry form is connected to a submit handler and results table',
   assert.match(html, /function contractorEntriesTable\(\)/);
 });
 
-test('apartment estimate form adds spaces, validates openings, and renders results', () => {
-  assert.match(html, /<form id="estimateSpaceForm">/);
-  assert.match(html, /if\(id==='estimateSpaceForm'\)/);
-  assert.match(html, /S\.apartmentSpaces\.push\(space\)/);
+test('apartment estimate accepts high-level inputs and creates a material estimate', () => {
+  assert.match(html, /<form id="quickEstimateForm"/);
+  assert.match(html, /if\(id==='quickEstimateForm'\)/);
+  assert.match(html, /QuickEstimate\.estimateQuickApartment\(input,S\.materialRates\|\|\{\}\)/);
+  assert.match(html, /S\.quickEstimate=input/);
+  assert.match(html, /function renderQuickEstimateResults\(result\)/);
   assert.match(html, /function renderApartmentEstimate\(\)/);
-  assert.match(html, /function estimateTotal\(\)/);
 });
 
 

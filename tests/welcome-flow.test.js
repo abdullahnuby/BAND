@@ -45,7 +45,8 @@ test('contractor and apartment estimate modes open working entry screens directl
   assert.match(html, /id="contractorEntryForm"/);
   assert.match(html, /function submitContractorEntry\(form\)/);
   assert.match(html, /case'delete-contractor-entry'/);
-  assert.match(html, /id="estimateSpaceForm"/);
+  assert.match(html, /id="quickEstimateForm"/);
   assert.match(html, /case'export-estimate'/);
   assert.match(html, /function contractorEntrySummary\(entry\)/);
+  assert.match(html, /function renderQuickEstimateResults\(result\)/);
 });

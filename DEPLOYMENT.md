@@ -46,3 +46,13 @@ The build also publishes `workflow-routes.js`. Do not remove this asset from `di
 ## Version 2.5.0
 
 Deploy as usual from the repository root. The build copies `public/index.html` to `dist/index.html` and includes the shared material/quantity rule modules. The apartment opening controls are handled client-side and use the same shared `apartmentSpaceQuantities` calculation for opening area and wall-face net area.
+
+
+## BAND 2.5.2 owner estimate
+
+The build copies `src/shared/quick-estimator.js` to `dist/quick-estimator.js`. The owner estimator is client-side and uses only public, non-secret reference rates; no additional environment variable is required to calculate an initial estimate.
+
+
+## 2.6.0 estimate flow
+
+The quick-estimate inputs use radio-card selections for the handover stage and finish level. After deployment, manually validate these cases on a phone: 120 m² apartment, 3 bedrooms, 2 bathrooms, 1 reception, 1 kitchen; stage on brick; medium finish. Then verify the material summary, edit path, CSV export and print/PDF. Costs are wide benchmark ranges and must not be represented as contractor quotations.
