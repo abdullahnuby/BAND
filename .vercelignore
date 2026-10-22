@@ -1,0 +1,10 @@
+node_modules
+.git
+.env
+.env.*
+tests
+dist
+README.md
+DEPLOYMENT.md
+SECURITY.md
+LICENSE

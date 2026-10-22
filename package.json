@@ -1,15 +1,20 @@
 {
   "name": "band-quantity-takeoff",
-  "version": "1.0.0",
+  "version": "2.1.1",
   "private": true,
-  "description": "BAND — Arabic quantity takeoff for building finishes and construction items.",
+  "description": "BAND — scalable Arabic quantity takeoff platform with a PostgreSQL backend.",
   "type": "module",
-  "scripts": {
-    "dev": "node scripts/serve.mjs",
-    "build": "node scripts/build.mjs",
-    "test": "node scripts/check.mjs"
-  },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "node --watch src/server/index.js",
+    "start": "node src/server/index.js",
+    "build": "node scripts/build.js",
+    "test": "node --test tests/*.test.js",
+    "db:migrate": "node src/server/db/migrate.js"
+  },
+  "dependencies": {
+    "pg": "^8.23.1"
   }
 }

@@ -1,9 +1,10 @@
 node_modules/
-dist/
-.vercel/
-.DS_Store
-Thumbs.db
-*.log
 .env
 .env.*
 !.env.example
+dist/
+coverage/
+.vercel/
+.DS_Store
+*.log
+npm-debug.log*
