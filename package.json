@@ -1,6 +1,6 @@
 {
   "name": "band-quantity-takeoff",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "private": true,
   "description": "BAND — welcome-first engineering takeoff, contractor materials, and quick apartment estimate.",
   "type": "module",

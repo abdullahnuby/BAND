@@ -130,3 +130,12 @@ Default consumption rates are only editable starting assumptions. See [`docs/MAT
 - The apartment-estimate workflow opens directly into the room-dimensions form.
 - Contractor direct entries are deliberately kept separate from engineering takeoff records to avoid automatic double counting; both are available in contractor material exports.
 - Rates and waste are estimates and should be set from the project specification and supplier data.
+
+
+## Workflow entry behavior (2.4.2)
+
+- Welcome cards route directly into each actual workspace, not an extra intro dashboard.
+- Contractor mode opens the live material-entry form and its results list.
+- Apartment Estimate opens the room/space entry form and live quantity/material summary.
+- Saved legacy state that points at `home` is normalized to the relevant form for these modes.
+- Workflow route policy is tested in `src/shared/workflow-routes.js` and `tests/workflow-routes.test.js`.
