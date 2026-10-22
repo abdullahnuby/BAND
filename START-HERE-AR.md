@@ -1,8 +1,8 @@
-# ابدأ من هنا — BAND 2.1
+# ابدأ من هنا — BAND 2.1.2
 
 ## تشغيل المشروع محليًا
 
-1. فك ضغط `BAND-Platform-2.1.0.zip` وافتح مجلد `BAND-Platform` في VS Code.
+1. فك ضغط `BAND-Platform-2.1.2-Mobile.zip` وافتح مجلد `BAND-Platform` في VS Code.
 2. ثبّت Node.js 20 أو أحدث إذا لم يكن موجودًا.
 3. افتح Terminal داخل المجلد وشغّل:
 

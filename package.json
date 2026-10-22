@@ -1,6 +1,6 @@
 {
   "name": "band-quantity-takeoff",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "private": true,
   "description": "BAND — scalable Arabic quantity takeoff platform with a PostgreSQL backend.",
   "type": "module",

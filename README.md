@@ -1,4 +1,4 @@
-# BAND — Engineering Quantity Takeoff Platform
+# BAND — Engineering Quantity Takeoff Platform 2.1.2
 
 BAND is an Arabic, RTL-first construction quantity-takeoff workspace. Version 2.1 expands the takeoff into structural concrete, excavation/filling, masonry wall volume by thickness, insulation by selectable unit, finishes, and dedicated measurement-sheet printing. It keeps local browser storage and JSON backup; optional account-based cloud workspaces use PostgreSQL.
 
@@ -15,6 +15,13 @@ BAND is an Arabic, RTL-first construction quantity-takeoff workspace. Version 2.
 - Facades with opening deductions and multiple finish layers.
 - A dedicated A4 landscape measurement-sheet report for the selected module or project, with project metadata, section summaries, repeating table headers and print-only content; module CSV exports and JSON backup/restore.
 - Optional cloud accounts, per-user projects, server-side persistence and cross-device project loading/saving.
+
+
+## Mobile experience (2.1.2)
+
+- On the mobile homepage, the duplicate sidebar is hidden because grouped module cards already provide the category chooser.
+- Inside a measurement module, category navigation becomes a single horizontally scrollable rail instead of a tall two-column grid.
+- The project header, export/backup actions, project statistics, and module cards use compact mobile sizing; single-item groups span the card width instead of leaving a blank half-row.
 
 ## Architecture
 
@@ -44,7 +51,7 @@ The database separates users, sessions, projects, project items and audit events
 
 ```bash
 npm install
-cp env.example .env
+cp .env.example .env
 ```
 
 Set `DATABASE_URL` in `.env` to your development database and set `APP_ORIGIN=http://localhost:4173`. Never commit `.env`.

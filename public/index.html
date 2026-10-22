@@ -67,6 +67,85 @@
 .cloud-panel{border:1px solid var(--line);border-radius:14px;padding:15px;margin-top:12px}.cloud-form-grid{display:grid;grid-template-columns:1fr;gap:12px}.cloud-field label{display:block;font-size:12px;font-weight:700;color:#5d6e7f;margin-bottom:5px}.cloud-field input,.cloud-field select{width:100%;min-height:42px;border:1px solid var(--line);border-radius:9px;padding:9px 11px;background:#fff;color:var(--ink)}.cloud-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.cloud-actions .btn{flex:1 1 155px}.cloud-status{border-radius:10px;padding:10px 12px;background:#f1f6fa;color:#40566b;font-size:12px;margin:12px 0 0}.cloud-status[data-kind="error"]{background:#fff0f0;color:#a02828}.cloud-status[data-kind="success"]{background:#eaf7f1;color:#126244}.cloud-user{display:flex;align-items:center;gap:10px;background:#f4f8fb;border-radius:12px;padding:10px 12px;margin-bottom:12px}.cloud-user .avatar{width:36px;height:36px;border-radius:11px;background:#d9f3ee;color:#0d635d;display:grid;place-items:center;font-weight:800}.cloud-user strong{display:block;font-size:13px}.cloud-user small{color:var(--muted)}.cloud-warning{font-size:11px;color:var(--muted);line-height:1.6;margin:10px 0 0}.cloud-switch{border:0;padding:0;background:transparent;color:#1769aa;font:inherit;font-weight:700;text-decoration:underline}
 @media(max-width:620px){.cloud-overlay{padding:8px}.cloud-modal{padding:15px;border-radius:15px}.topbar{align-items:flex-start}.top-actions{width:100%}.cloud-actions .btn{flex-basis:100%}}
 
+
+/* BAND 2.1.2 — focused mobile navigation and compact takeoff cards */
+@media(max-width:700px){
+  .app{padding:9px 9px calc(20px + env(safe-area-inset-bottom,0px));}
+  .topbar{gap:12px;margin-bottom:10px;padding:13px;border-radius:15px;}
+  .brand{width:100%;gap:10px;align-items:center;}
+  .brand-mark{width:43px;height:43px;flex:0 0 43px;border-radius:12px;}
+  .brand-mark svg{width:31px;height:31px;}
+  .brand h1{font-size:19px;}
+  .brand p{font-size:11px;line-height:1.45;}
+  .top-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;width:100%;max-width:none;}
+  .project-input{grid-column:1/-1;min-width:0;width:100%;min-height:41px;padding:5px 10px;}
+  .project-input label{font-size:11px;}
+  .project-input input{width:100%;font-size:13px;}
+  .top-actions>.btn{width:100%;min-width:0;min-height:41px;white-space:normal;text-align:center;line-height:1.35;padding:8px 7px;font-size:12px;}
+  .layout{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;}
+  /* The homepage already presents the categories as grouped cards. Hide duplicate navigation there. */
+  .app[data-active-module="home"] .sidebar{display:none;}
+  /* Inside a section, keep navigation as one compact horizontal rail instead of a tall two-column list. */
+  .sidebar{position:sticky;top:0;z-index:30;padding:6px 8px;margin:0;border-radius:13px;box-shadow:0 5px 14px rgba(16,37,63,.08);}
+  .side-label,.sidebar-foot{display:none;}
+  .nav{display:flex;flex-direction:row;align-items:stretch;gap:6px;width:100%;min-width:0;overflow-x:auto;overflow-y:hidden;padding:1px 0 4px;scrollbar-width:thin;-webkit-overflow-scrolling:touch;}
+  .nav-btn{flex:0 0 auto;width:auto;min-width:max-content;min-height:38px;justify-content:center;padding:5px 9px;gap:6px;font-size:11px;white-space:nowrap;}
+  .nav-btn .ico{width:24px;height:24px;flex-basis:24px;border-radius:7px;font-size:12px;}
+  .content{width:100%;min-width:0;}
+  .page-head{gap:8px;margin:1px 0 11px;}
+  .page-head h2{font-size:21px;line-height:1.35;}
+  .page-head p{font-size:12px;line-height:1.6;}
+  .head-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:7px;}
+  .head-actions .btn{min-width:0;white-space:normal;line-height:1.35;font-size:12px;padding:8px 7px;}
+  .notice{padding:10px 11px;margin-bottom:10px;font-size:11px;line-height:1.65;}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-bottom:10px;}
+  .stat{padding:9px 10px;border-radius:12px;}
+  .stat .stat-label{font-size:10px;line-height:1.45;}
+  .stat strong{font-size:20px;margin-top:2px;overflow-wrap:anywhere;}
+  .stat small{font-size:9px;line-height:1.4;}
+  .card{padding:12px;border-radius:14px;}
+  .card+.card{margin-top:10px;}
+  .card-head{gap:8px;margin-bottom:10px;}
+  .card-head h3{font-size:15px;}
+  .card-head p{font-size:11px;line-height:1.5;}
+  .module-grid,.module-grid.compact{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+  .module-grid.compact .module-card{min-height:0;height:100%;padding:11px;border-radius:13px;box-shadow:0 3px 12px rgba(16,37,63,.045);}
+  .module-grid.compact .module-icon{width:34px;height:34px;border-radius:10px;font-size:18px;margin-bottom:7px;}
+  .module-grid.compact .module-card strong{font-size:13px;line-height:1.5;overflow-wrap:anywhere;}
+  .module-grid.compact .module-card p{font-size:10.5px;line-height:1.55;margin:4px 0 8px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;}
+  .module-grid.compact .module-card .module-meta{font-size:10px;line-height:1.5;}
+  .module-grid.compact>.module-card:only-child{grid-column:1/-1;min-height:0;display:grid;grid-template-columns:38px minmax(0,1fr);grid-template-rows:auto auto auto;column-gap:9px;align-items:start;}
+  .module-grid.compact>.module-card:only-child .module-icon{grid-column:1;grid-row:1/4;margin:0;}
+  .module-grid.compact>.module-card:only-child strong{grid-column:2;grid-row:1;}
+  .module-grid.compact>.module-card:only-child p{grid-column:2;grid-row:2;margin:3px 0 5px;-webkit-line-clamp:2;}
+  .module-grid.compact>.module-card:only-child .module-meta{grid-column:2;grid-row:3;margin-top:0;}
+  .form-grid,.form-grid.three,.form-grid.two{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;}
+  .wall-grid{grid-template-columns:minmax(0,1fr);}
+  .wall-box{padding:10px;}
+  .item-top{align-items:flex-start;flex-direction:column;padding:11px;}
+  .item-actions{width:100%;gap:6px;}
+  .item-actions .btn{flex:1;min-width:0;}
+  .opening-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;}
+  .opening-row select:first-child{grid-column:1/-1;}
+  .opening-row button{grid-column:1/-1;min-height:34px;}
+  .inline-fields{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .table-wrap{max-width:100%;}
+  .table-wrap table{min-width:580px;}
+  .report-preview{overflow-x:auto;}
+  .footer-note{padding:14px 0 5px;font-size:10px;}
+}
+@media(max-width:390px){
+  .app{padding-left:7px;padding-right:7px;}
+  .topbar{padding:11px;}
+  .brand p{max-width:250px;}
+  .top-actions>.btn{font-size:11px;}
+  .module-grid.compact .module-card{padding:9px;}
+  .module-grid.compact .module-card strong{font-size:12px;}
+  .module-grid.compact .module-card p{font-size:10px;}
+  .form-grid,.form-grid.three,.form-grid.two{grid-template-columns:minmax(0,1fr);}
+  .checkbox-field{padding-top:0;}
+}
+
 </style>
 </head>
 <body>
@@ -256,7 +335,7 @@ function facadeMath(f){let gross=n(f.width)*n(f.height),open=(f.openings||[]).re
 function finishArea(f,fin){const net=facadeMath(f).net;if(fin.method==='area')return Math.max(0,n(fin.value));if(fin.method==='percent')return net*Math.max(0,n(fin.value))/100;return net}
 function renderFacades(){const e=getEdited('facades'),totalNet=S.facades.reduce((a,f)=>a+facadeMath(f).net,0),openingArea=S.facades.reduce((a,f)=>a+facadeMath(f).open,0),finishes=S.facades.reduce((a,f)=>a+(f.finishes||[]).reduce((z,x)=>z+finishArea(f,x),0),0);return head('facades','أدخل أبعاد كل واجهة وخصم فتحاتها، ثم أضف تشطيبًا واحدًا أو عدة تشطيبات للواجهة نفسها.')+`<div class="stats">${stat('عدد الواجهات',S.facades.length)}${stat('صافي مساحة الواجهات',m2(totalNet))}${stat('خصومات الفتحات',m2(openingArea))}${stat('مجموع مساحات التشطيبات',m2(finishes),'قد يزيد عند احتساب طبقات مستقلة')}</div><div class="notice"><strong>واجهة متعددة التشطيبات:</strong> يمكن إضافة محارة ودهانات وحجر وسافيتو أو أي خامة أخرى على نفس الواجهة. لكل تشطيب اختر كامل المساحة الصافية، أو مساحة يدوية، أو نسبة من المساحة الصافية، حتى لا تُحتسب المساحة كلها لنوع واحد بالخطأ.</div><section class="card"><div class="card-head"><div><h3>${e?'تعديل بيانات الواجهة':'إضافة واجهة'}</h3><p>أدخل أبعاد الواجهة الإجمالية أولًا ثم أضف الفتحات والتشطيبات من تفاصيل الواجهة.</p></div></div><form id="facadesForm"><div class="form-grid three"><div class="field"><label class="label">اسم الواجهة</label><input name="name" required value="${esc(e?.name||'')}" placeholder="الواجهة الأمامية"></div>${genericFormField('العرض الإجمالي (م)','width',e?.width??'','number','12.00','required')}${genericFormField('الارتفاع (م)','height',e?.height??'','number','9.00','required')}</div>${formFooter('facades',e)}</form></section><section class="card"><div class="card-head"><div><h3>الواجهات والتشطيبات</h3><p>الخصم من كل فتحة يُطرح من المساحة الإجمالية للواجهة.</p></div><span class="pill">${S.facades.length} واجهة</span></div>${S.facades.length?`<div class="row-list">${S.facades.map(f=>{const x=facadeMath(f),open=S.ui.expandedFacades.includes(f.id);return `<article class="item-card"><div class="item-top"><div class="item-title"><strong>${esc(f.name)}</strong><small>الأبعاد: ${fmt(f.width)} × ${fmt(f.height)} م</small><div class="item-stats"><span class="tag">إجمالي <strong>${m2(x.gross)}</strong></span><span class="tag">الفتحات <strong>${m2(x.open)}</strong></span><span class="tag">صافي الواجهة <strong>${m2(x.net)}</strong></span><span class="tag">تشطيبات <strong>${(f.finishes||[]).length}</strong></span></div></div><div class="item-actions">${btn(open?'إخفاء التفاصيل':'الفتحات والتشطيبات','toggle-facade','btn sm','data-id="'+f.id+'"')}${btn('تعديل','edit-row','btn sm','data-module="facades" data-id="'+f.id+'"')}${btn('حذف','delete-row','btn sm danger','data-module="facades" data-id="'+f.id+'"')}</div></div>${open?renderFacadeDetails(f):''}</article>`}).join('')}</div>`:empty('أضف أول واجهة، ثم سجل الفتحات والتشطيبات الخاصة بها.')}</section>`}
 function renderFacadeDetails(f){return `<div class="details"><div class="subhead"><h4>فتحات الواجهة</h4><button class="btn sm" data-action="add-facade-opening" data-facade="${f.id}">+ إضافة فتحة</button></div>${(f.openings||[]).length?`<div class="opening-list">${f.openings.map(o=>`<div class="opening-row"><select data-entity="facadeOpening" data-facade="${f.id}" data-id="${o.id}" data-key="type">${['باب','شباك','فتحة تهوية','فتحة أخرى'].map(t=>`<option ${o.type===t?'selected':''}>${t}</option>`).join('')}</select><input aria-label="عرض الفتحة" type="number" min="0" step="0.01" title="عرض الفتحة (م)" placeholder="العرض" data-entity="facadeOpening" data-facade="${f.id}" data-id="${o.id}" data-key="width" value="${esc(o.width)}"><input aria-label="ارتفاع الفتحة" type="number" min="0" step="0.01" title="ارتفاع الفتحة (م)" placeholder="الارتفاع" data-entity="facadeOpening" data-facade="${f.id}" data-id="${o.id}" data-key="height" value="${esc(o.height)}"><input aria-label="العدد" type="number" min="1" step="1" title="العدد" placeholder="العدد" data-entity="facadeOpening" data-facade="${f.id}" data-id="${o.id}" data-key="qty" value="${esc(o.qty)}"><button class="btn sm danger" data-action="delete-facade-opening" data-facade="${f.id}" data-id="${o.id}">×</button></div>`).join('')}</div>`:`<p class="hint">لا توجد فتحات مسجلة لهذه الواجهة.</p>`}<p class="hint">إجمالي خصم الفتحات: <strong>${m2(facadeMath(f).open)}</strong> · صافي مساحة الواجهة: <strong>${m2(facadeMath(f).net)}</strong></p><div class="divider"></div><div class="subhead"><h4>التشطيبات على الواجهة</h4></div>${(f.finishes||[]).length?`<div class="table-wrap"><table style="min-width:580px"><thead><tr><th>نوع التشطيب</th><th>طريقة الكمية</th><th>المساحة / النسبة</th><th>الكمية</th><th></th></tr></thead><tbody>${f.finishes.map(fin=>`<tr><td><select data-entity="finish" data-facade="${f.id}" data-id="${fin.id}" data-key="type" class="control">${['محارة خارجية','دهانات خارجية','حجر طبيعي','سافيتو','جرانيت','رخام','GRC','عزل','تشطيب آخر'].map(t=>`<option ${fin.type===t?'selected':''}>${t}</option>`).join('')}</select></td><td><select data-entity="finish" data-facade="${f.id}" data-id="${fin.id}" data-key="method" class="control"><option value="net" ${fin.method==='net'?'selected':''}>كامل الصافي</option><option value="area" ${fin.method==='area'?'selected':''}>مساحة يدوية</option><option value="percent" ${fin.method==='percent'?'selected':''}>نسبة % من الصافي</option></select></td><td><input class="control" type="number" min="0" step="0.01" data-entity="finish" data-facade="${f.id}" data-id="${fin.id}" data-key="value" value="${esc(fin.value??100)}" ${fin.method==='net'?'disabled':''}></td><td><strong>${m2(finishArea(f,fin))}</strong></td><td><button class="btn sm danger" data-action="delete-finish" data-facade="${f.id}" data-id="${fin.id}">حذف</button></td></tr>`).join('')}</tbody></table></div>`:`<p class="hint">لا توجد تشطيبات مسجلة بعد. أضف المحارة أو الدهان أو الحجر أو السافيتو.</p>`}<form class="finishForm" data-finish-form="${f.id}" style="margin-top:12px"><div class="form-grid three"><div class="field"><label class="label">نوع التشطيب</label><select name="type">${['محارة خارجية','دهانات خارجية','حجر طبيعي','سافيتو','جرانيت','رخام','GRC','عزل','تشطيب آخر'].map(t=>`<option>${t}</option>`).join('')}</select></div><div class="field"><label class="label">طريقة الحساب</label><select name="method"><option value="net">كامل المساحة الصافية</option><option value="area">مساحة يدوية (م²)</option><option value="percent">نسبة من الصافي (%)</option></select></div><div class="field"><label class="label">المساحة أو النسبة</label><input type="number" min="0" step="0.01" name="value" value="100"></div></div><div class="form-actions"><button class="btn primary" type="submit">+ إضافة تشطيب للواجهة</button></div></form></div>`}
-function render(){nav();$('#projectName').value=S.meta.project||'';const id=S.ui.active;const html=id==='home'?renderHome():id==='concrete'?renderConcrete():id==='earthworks'?renderEarthworks():id==='insulation'?renderInsulation():id==='report'?renderReport():['masonry','plaster','paint'].includes(id)?roomModule(id):id==='floors'?renderFloors():id==='doorsWindows'?renderDoors():id==='sanitary'?renderSanitary():id==='stairs'?renderStairs():id==='facades'?renderFacades():renderHome();$('#content').innerHTML=html;persist()}
+function render(){const appRoot=document.querySelector('.app');if(appRoot)appRoot.dataset.activeModule=S.ui.active;nav();$('#projectName').value=S.meta.project||'';const id=S.ui.active;const html=id==='home'?renderHome():id==='concrete'?renderConcrete():id==='earthworks'?renderEarthworks():id==='insulation'?renderInsulation():id==='report'?renderReport():['masonry','plaster','paint'].includes(id)?roomModule(id):id==='floors'?renderFloors():id==='doorsWindows'?renderDoors():id==='sanitary'?renderSanitary():id==='stairs'?renderStairs():id==='facades'?renderFacades():renderHome();$('#content').innerHTML=html;persist()}
 function fieldForm(form){const d=new FormData(form),o={};for(const [k,v] of d.entries())o[k]=v;return o}
 function addOpening(wall,type='باب'){wall.openings=wall.openings||[];wall.openings.push({id:uid(),type,width:type==='باب'?0.9:1.2,height:type==='باب'?2.1:1.2,qty:1})}
 function removeById(arr,id){const i=arr.findIndex(x=>x.id===id);if(i>=0)arr.splice(i,1)}
