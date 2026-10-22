@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { resolveWorkspaceRoute, startModuleForWorkflow, WORKFLOW_MODULES } from '../src/shared/workflow-routes.js';
+import { resolveWorkspaceRoute, startModuleForWorkflow, resolveWorkflowSelection, WORKFLOW_MODULES } from '../src/shared/workflow-routes.js';
 import { readFile } from 'node:fs/promises';
 
 const html = await readFile(new URL('../public/index.html', import.meta.url), 'utf8');
@@ -41,4 +41,26 @@ test('apartment estimate form adds spaces, validates openings, and renders resul
   assert.match(html, /S\.apartmentSpaces\.push\(space\)/);
   assert.match(html, /function renderApartmentEstimate\(\)/);
   assert.match(html, /function estimateTotal\(\)/);
+});
+
+
+test('read-only material summary tables do not require an editable module record', () => {
+  assert.match(html, /function tableHtml\(headers,rows,mod\)\{[\s\S]*?const withActions=typeof mod==='string'&&Array\.isArray\(S\[mod\]\)/);
+  assert.match(html, /const actions=record\?`<td class=\"td-actions\">/);
+  assert.match(html, /function materialTable\(heads,rows\)\{return rows\.length\?tableHtml\(heads,rows\):empty\(/);
+});
+
+
+test('mobile picker and navigation explicitly switch to the relevant working flow', () => {
+  assert.deepEqual(resolveWorkflowSelection('welcome', 'materials'), { mode: 'contractor', active: 'materials' });
+  assert.deepEqual(resolveWorkflowSelection('welcome', 'apartmentEstimate'), { mode: 'estimate', active: 'apartmentEstimate' });
+  assert.deepEqual(resolveWorkflowSelection('estimate', 'materials'), { mode: 'contractor', active: 'materials' });
+  assert.deepEqual(resolveWorkflowSelection('contractor', 'concrete'), { mode: 'contractor', active: 'concrete' });
+  assert.deepEqual(resolveWorkflowSelection('welcome', 'earthworks'), { mode: 'engineering', active: 'earthworks' });
+});
+
+test('rendering errors replace stale content with a visible recovery panel', () => {
+  assert.match(html, /catch\(error\)\s*\{[\s\S]*تعذر فتح مساحة العمل/);
+  assert.match(html, /data-action=\"retry-render\"/);
+  assert.match(html, /case'retry-render':render\(\);break/);
 });

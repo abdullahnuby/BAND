@@ -26,3 +26,16 @@ export function resolveWorkspaceRoute(mode, activeModule) {
 export function startModuleForWorkflow(mode) {
   return WORKFLOW_START_MODULE[Object.hasOwn(WORKFLOW_START_MODULE, mode) ? mode : 'welcome'];
 }
+
+/**
+ * Resolve a navigation target even when it is chosen from a stale/global mobile picker.
+ * Materials and quick-apartment estimation are explicit workflows, not ordinary modules.
+ */
+export function resolveWorkflowSelection(currentMode, targetModule) {
+  let mode = Object.hasOwn(WORKFLOW_MODULES, currentMode) ? currentMode : 'engineering';
+  if (targetModule === 'materials') mode = 'contractor';
+  else if (targetModule === 'apartmentEstimate') mode = 'estimate';
+  else if (targetModule === 'home' && !['welcome', 'engineering'].includes(mode)) mode = 'welcome';
+  else if (!WORKFLOW_MODULES[mode].includes(targetModule)) mode = 'engineering';
+  return { mode, active: resolveWorkspaceRoute(mode, targetModule) };
+}

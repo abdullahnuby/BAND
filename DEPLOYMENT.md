@@ -38,6 +38,6 @@ Do not put production database URLs in GitHub commits, screenshots, client-side 
 The public entry page is the welcome route rendered inside `public/index.html`. On first visit in a browser tab the UI route opens at `welcome`; workspace refreshes in that tab resume the current route while project/takeoff arrays remain intact. Selecting a route changes `ui.mode` and opens that route's own home workspace. Inner workspace pages provide a `تغيير طريقة العمل` action to return to the route chooser.
 
 
-## Workflow routing regression fix (2.4.2)
+## Workflow routing regression fix (2.4.4)
 
 The build also publishes `workflow-routes.js`. Do not remove this asset from `dist`; `public/index.html` imports it to normalize persisted routes. Contractor mode must land on `materials`; estimate mode must land on `apartmentEstimate`.

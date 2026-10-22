@@ -132,7 +132,7 @@ Default consumption rates are only editable starting assumptions. See [`docs/MAT
 - Rates and waste are estimates and should be set from the project specification and supplier data.
 
 
-## Workflow entry behavior (2.4.2)
+## Workflow entry behavior (2.4.4)
 
 - Welcome cards route directly into each actual workspace, not an extra intro dashboard.
 - Contractor mode opens the live material-entry form and its results list.
