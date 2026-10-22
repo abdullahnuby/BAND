@@ -1,0 +1,15 @@
+{
+  "name": "band-quantity-takeoff",
+  "version": "1.0.0",
+  "private": true,
+  "description": "BAND — Arabic quantity takeoff for building finishes and construction items.",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/check.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

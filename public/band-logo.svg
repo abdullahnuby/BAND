@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-labelledby="title">
+<title id="title">BAND logo</title>
+<rect width="48" height="48" rx="10" fill="#F7FBFC"/>
+<path d="M10 7.5H25.5C33 7.5 37 11.1 37 17C37 20.2 35 22.6 31.2 24C35.7 25.2 38.5 28.1 38.5 32.2C38.5 38 33.9 41 25.5 41H10V7.5Z" fill="none" stroke="#123654" stroke-width="2.6" stroke-linejoin="round"/>
+<path d="M16 13.5H25C29.2 13.5 31 14.7 31 17.5C31 20.4 29 21.8 25 21.8H16V13.5Z" fill="#14A89B"/>
+<path d="M16 27.2H25.5C30.1 27.2 32.2 28.5 32.2 31.5C32.2 34.4 30 35.6 25.5 35.6H16V27.2Z" fill="#14A89B"/>
+<path d="M6.5 44H41.5" stroke="#E5B45D" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M12 41.5V44M18 42V44M24 41.5V44M30 42V44M36 41.5V44" stroke="#E5B45D" stroke-width="1.4" stroke-linecap="round"/>
+</svg>
