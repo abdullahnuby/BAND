@@ -35,4 +35,5 @@ await mkdir(outDir, { recursive: true });
 await copyFile(resolve(root, 'public/index.html'), resolve(outDir, 'index.html'));
 await copyFile(resolve(root, 'public/favicon.svg'), resolve(outDir, 'favicon.svg'));
 await copyFile(resolve(root, 'public/band-logo.svg'), resolve(outDir, 'band-logo.svg'));
+await copyFile(resolve(root, 'src/shared/quantity-rules.js'), resolve(outDir, 'quantity-rules.js'));
 console.log(`BAND build passed: ${jsFiles.length} server/API JS files + ${scripts.length} HTML script blocks checked.`);

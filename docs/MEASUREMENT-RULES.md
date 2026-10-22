@@ -1,65 +1,115 @@
-# Engineering Measurement Rules — BAND
+# قواعد القياس والمراجعة الهندسية — BAND 2.2.2
 
-BAND gives a transparent geometric takeoff. It does not replace the project specifications, approved drawings, contract bill-of-quantities rules, or the quantity surveyor's review.
+BAND أداة حصر هندسي شفافة؛ ليست بديلًا عن الرسومات المعتمدة أو المواصفات أو شروط العقد وطريقة القياس المرفقة بالمقايسة. الاختلاف في طريقة القياس بين العقود والمعايير حقيقي: لذلك يتيح حصر المباني اختيار م² أو م³ صراحةً بدل فرض وحدة واحدة على كل المشروعات.
 
-## 1. Units and dimensional inputs
+## 1. مبادئ منع التكرار
 
-- All length dimensions are entered in metres unless a field explicitly says centimetres.
-- Masonry wall thickness is entered in centimetres and converted to metres inside the volume formula.
-- Concrete and earthwork volumes are calculated in m³.
-- Surface finishes are generally m²; items such as skirting or sealant can be measured in linear metres; countable fixtures use number/count.
-- BAND never combines distinct units into one numerical total in the insulation/stair reports.
+1. **المباني تسجل كجسم حائط فعلي مرة واحدة في `masonryWalls`**، بمرجع فريد مثل `W-01` وموقع/دور/محور واضح. لا يتم توليد حجم المباني أو إجماليها من الغرف.
+2. بيانات الغرف والحوائط داخلها تخص **أسطح التشطيب** مثل المحارة والدهانات. يجوز حصر وجهي الحائط الفاصل إذا كان الوجهين سيُشطب كلٌ على حدة؛ هذا لا يعني إضافة جسم المباني مرتين.
+3. عند إضافة بند مطابق في الموقع والأبعاد، يظهر تنبيه تكرار. الأفضل تجميع العناصر المتطابقة في حقل العدد بدل إنشاء بند جديد مطابق.
+4. الخرسانة والحفر والردم تخصم قيمة التقاطع المدخلة **لكل عنصر أولًا** ثم تضرب الكمية الصافية في العدد. لا تدخل خصم إجمالي لمجموعة ثم يضرب مرة أخرى في العدد.
+5. الحصر الهندسي لا يستطيع اكتشاف كل تداخل مكاني من الأطوال والعروض فقط. يلزم إدخال محور/منطقة/مرجع فعلي ومراجعة التقاطعات مع اللوحات؛ إذا سجل المستخدم العنصر نفسه تحت موقعين مختلفين، فلا يمكن إثبات أنه مكرر من المقاسات وحدها.
 
-## 2. Masonry
+## 2. وحدات المباني والسماكات
 
-Per wall:
+كل الأطوال بالمتر إلا إذا وُضّح غير ذلك. سمك المباني يدخل بالسنتيمتر ويحوّل إلى متر عند حساب الحجم.
 
-`net wall area = max(0, gross wall area - measured opening area)`
+- اقتراح BAND الافتراضي: **12.5 سم أو أقل يقترح م²**، و**24.5 سم أو أكثر يقترح م³**؛ وبذلك يقترح 12 سم المتر المسطح و25 سم المتر المكعب.
+- أي سمك بين النطاقين يطلب اختيار الوحدة صراحةً بدل التخمين؛ ووحدة بند المقايسة/العقد لها الأولوية دائمًا.
+- يمكن تغيير الوحدة يدويًا إلى م² أو م³ إذا كان بند المقايسة أو العقد يستخدم طريقة مختلفة.
 
-`masonry volume (m³) = net wall area (m²) × wall thickness (cm) / 100`
+لحائط واحد:
 
-Each wall can have its own thickness; otherwise it inherits the room's default thickness (12 cm for a newly created room). The user must check wall lengths at corners and intersections against the chosen measurement basis to avoid duplicated junction volumes. BAND deducts all entered openings from the area; if the project's contract rules define thresholds or exceptions for opening deductions, those rules must be applied before contractual certification.
+`المسطح الإجمالي (م²) = الطول × الارتفاع`
 
-## 3. Concrete
+`المسطح الصافي (م²) = المسطح الإجمالي − مجموع مساحات الفتحات المدخلة`
 
-`concrete volume (m³) = dimension 1 × dimension 2 × dimension 3 × quantity`
+`كمية المباني بالمتر المسطح = المسطح الصافي × العدد`
 
-Use dimensions in a way that matches the element: length × width × thickness for slabs/footings; section width × section depth × column height for columns; beam length × beam width × beam depth for beams. Reinforcement mass and formwork surface are independent quantities and are recorded manually when known; the tool does not infer them from concrete volume.
+`كمية المباني بالمتر المكعب = المسطح الصافي × (السمك بالسم ÷ 100) × العدد`
 
-## 4. Excavation and filling
+فتحات سجل المباني هي نمط الفتحات في **حائط واحد**؛ حقل عدد الحوائط يكرر كمية هذا الحائط بما فيها نمط الفتحات. لا تسجل العدد الإجمالي للفتحات على أنه نمط لكل حائط إذا لم تكن الفتحات متطابقة.
 
-`gross volume (m³) = length × width × depth × quantity`
+خصم التقاطعات اليدوي يدخل بوحدة البند المختارة (م² أو م³) **لكل حائط واحد**؛ يمنع النظام الخصم الذي يتجاوز الكمية المتبقية بعد الفتحات.
 
-`net entered quantity (m³) = max(0, gross volume - explicitly entered deduction volume)`
+> **تنبيه تعاقدي:** قاعدة 12 سم = م² و25 سم = م³ هي قاعدة افتراضية عملية ملائمة لبعض مقايسات السوق المصري وليست قاعدة عالمية. بعض طرق القياس، ومنها RICS NRM 2، تقيس الحوائط ذات السمك المبيّن بالمتر المربع وتضع قواعد خاصة لخصم الفتحات. راجع دائمًا وصف البند وشروط العقد قبل اعتماد ناتج BAND.
 
-Excavation, backfill, imported fill, and surplus-soil disposal should be recorded as distinct items; their totals should not be added into one overall earthwork figure. The compacted final thickness and source/type of fill should follow the project specification. Excavated loose volume and compacted fill volume are not automatically assumed equal.
+## 3. المحارة والدهانات
 
-## 5. Insulation
+- تحسب مساحة كل وجه حائط من عرضه × ارتفاعه بعد خصم الفتحات المسجلة على هذا الوجه.
+- تحسب مساحة السقف من طول الفراغ × عرضه.
+- تُجمع المحارة والدهانات حسب الوجوه والأسقف؛ لا تحوّلها إلى حجم مبانٍ ولا تُستخدم كبديل لسجل الحوائط الفعلية.
+- لتجنب نسيان وجه داخلي أو خارجي، راجع جدول كل غرفة على حدة. ظهور الحائط الفاصل في غرفتين صحيح إذا كانت هناك عمليتا تشطيب على وجهين مختلفين.
 
-The unit is selected per item:
+## 4. الخرسانة
 
-- m²: length × width × quantity
-- m³: length × width × thickness-in-metres × quantity
-- linear metre: length × quantity
-- count: quantity
+`الحجم الهندسي للعنصر الواحد (م³) = البعد الأول × البعد الثاني × البعد الثالث`
 
-Use the unit and description specified by the BOQ or material schedule. Do not enter membrane thickness when the work item is measured only in m².
+`الصافي (م³) = max(0, حجم العنصر الواحد − خصم التداخل لكل عنصر) × العدد`
 
-## 6. Plaster, paint, floors, openings and façades
+استخدم أبعادًا متسقة مع الرسومات، مثل طول × عرض × سمك للبلاطات والقواعد، أو مساحة القطاع × الارتفاع/الطول للأعمدة والكمرات. عند التقاء كمرة وعمود أو بلاطة، اختر خط قياس واحدًا متسقًا أو سجل خصم التداخل الصحيح. لا يمكن استنتاج تقاطعات الخرسانة آليًا من أبعاد كل عنصر فقط؛ النظام يرفض الخصم السالب أو الأكبر من حجم العنصر الواحد.
 
-- Wall surface = width × height, minus the openings entered on that wall.
-- Plaster and paint summaries include the net wall areas plus room ceiling areas.
-- Floor finish = length × width × count.
-- Door/window item area = width × height × count; unit count remains visible separately.
-- Façade finish areas are based on the façade's net surface or the user-selected manual area/percentage. Distinct finish layers may repeat the same physical surface and should not be added as if they were a single material quantity.
+حديد التسليح والشدات بندان مستقلان. الكمية لا تُستنتج تلقائيًا من حجم الخرسانة، بل تُدخل من جدول التسليح/الشدات أو القياس المعتمد.
 
-## 7. Reports and approval
+## 5. الحفر والردم والإحلال والنقل
 
-Print/PDF is generated from a separate A4-landscape measurement-sheet template, not by printing the application's inputs/navigation. Table headers repeat across pages; each section has a quantity summary with unit-aware notes. The final PDF must still be reviewed against the current drawings and the contract's measurement rules before it is used for procurement, valuation, or payment.
+`الحجم الإجمالي (م³) = الطول × العرض × العمق × العدد`
 
-## Reference framework
+`الصافي (م³) = max(0, حجم العنصر الواحد − الخصم لكل عنصر) × العدد`
 
-The Royal Institution of Chartered Surveyors' New Rules of Measurement (NRM) provides a structured measurement framework and distinguishes work sections such as excavating/filling, in-situ concrete, masonry and waterproofing. Its current NRM page also states that users must check templates and embedded logic against the specific calculation requirements. BAND uses that as a general organisational reference, not as a claim of formal certification or universal compliance:
+سجل الحفر، الردم، الإحلال، ونقل/التخلص من الناتج في بنود منفصلة. لا تجمع هذه الأنشطة في كمية واحدة؛ فهي ليست كميات قابلة للجمع لأغراض المستخلص أو التسعير. لا يفترض BAND معامل انتفاش أو دمك؛ الحجم المفكك والحجم المدموك قد يختلفان وفق المواصفات.
 
-- https://www.rics.org/profession-standards/rics-standards-and-guidance/sector-standards/construction-standards/nrm
-- https://www.rics.org/content/dam/ricsglobal/documents/standards/nrm_2_detailed_measurement_for_building_works_1st_edition_rics.pdf
+## 6. العزل
+
+- م²: الطول × العرض × العدد.
+- م³: الطول × العرض × السمك بالمتر × العدد.
+- متر طولي: الطول × العدد.
+- عدد: العدد.
+
+تُراجع الوحدة مع جدول الكميات ومواصفات مادة العزل. لا يدخل السمك في بند عزل مسطح بوحدة م².
+
+## 7. الأرضيات والأبواب والشبابيك والأجهزة الصحية
+
+- الأرضيات: الطول × العرض × العدد. تسجل المساحات المختلفة أو الخامات المختلفة في بنود منفصلة؛ لا تسجل نفس المسطح والخامة والمكان مرتين.
+- الأبواب والشبابيك: العرض × الارتفاع × العدد لحساب مساحة القطع، مع إبقاء العدد ظاهرًا. التكرار في نفس الموقع والخامة والنوع والأبعاد يحتاج مراجعة أو دمج العدد.
+- الأجهزة الصحية: تُجمع حسب النوع والمكان والاسم المخصص؛ كرر العدد بدل تكرار السجل نفسه.
+
+## 8. السلالم الرخام
+
+- الدرجة الكاملة: طول الدرجة × (عمق النائمة + ارتفاع القائمة) × العدد — إذا كانت المقايسة تحاسب النائمة والقائمة معًا بهذه الطريقة.
+- النائمة: الطول × العمق × العدد.
+- القائمة: الطول × الارتفاع × العدد.
+- الوزرة: بالمتر الطولي وفق طول الوزرة المقاس، أو حسب الطريقة المحددة في نموذج الحصر.
+- يمكن فرض م² أو متر طولي أو عدد عند اختيار طريقة المقايسة.
+
+لا تسجل الدرجة الكاملة ثم تسجل النائمة والقائمة مرة أخرى إذا كان نطاق البند يشمل العناصر نفسها؛ اختر تفصيلًا واحدًا حسب وصف المقايسة. يجب مراجعة ما إذا كانت الوزرات والتلابيس ضمن سعر الدرجة أو بنود مستقلة.
+
+## 9. الواجهات والتشطيبات المتعددة
+
+- صافي الواجهة = المساحة الإجمالية − مجموع مساحات الفتحات المسجلة.
+- يمكن إضافة تشطيبات متعددة مثل المحارة والدهانات والحجر والسافيتو؛ لكل طبقة كمية مستقلة.
+- مجموع مساحات طبقات التشطيب قد يتجاوز مساحة الواجهة لأن الطبقات أعمال مختلفة. لا تعتبر هذا خطأ تلقائيًا، لكن لا تجمع طبقات مختلفة كسطح واحد لأغراض التسعير.
+- التشطيب المكرر على الواجهة نفسها وبنفس طريقة وقيمة القياس يظهر كتذكير للمراجعة.
+
+## 10. تدقيق البيانات قبل اعتماد الكميات
+
+- يرفض النظام الفتحات ذات الأبعاد/العدد غير الصحيحين، والفتحة التي يزيد عرضها أو ارتفاعها على الحائط/الواجهة، أو مجموع مساحات فتحاتها على المسطح الإجمالي.
+- يراجع الخصومات السالبة أو الأكبر من حجم العنصر الواحد، والوحدات/الأبعاد الناقصة، والسجلات المطابقة بوضوح في نفس الموقع ونفس الأبعاد.
+- عند وجود مشكلة من هذه الأنواع، يظهر تحذير ويوقف BAND الطباعة والتصدير والحفظ السحابي حتى تُراجع البيانات.
+- هذه القواعد تكشف التكرارات الواضحة فقط. إذا سُجل نفس الحائط/العنصر تحت محورين أو اسمَي موقع مختلفين، فلن يمكن إثبات التكرار من الأبعاد وحدها؛ لذلك يجب أن يكون الموقع/المحور دقيقًا، وتُراجع نقاط الالتقاء والتداخلات على اللوحات.
+- لا يختبر BAND تداخل فتحات متعددة هندسيًا عبر الإحداثيات؛ نموذج الفتحات الحالي يسجل العرض والارتفاع والعدد، لذلك يجب التأكد من عدم تراكب مواقعها على نفس الحائط في الرسم.
+
+## 11. التقارير والتصدير
+
+التقرير المطبوع يُبنى من بيانات الحصر في قالب A4 أفقي مستقل، وليس من لقطة شاشة الواجهة. يحتوي على اسم المشروع والعميل والتاريخ وأقسام منفصلة، وجداول بوحدات ظاهرة، وإجماليات مميزة لكل قسم. تفصل تقارير المباني بين كميات م² وم³ ولا تجمعهما في إجمالي رقمي واحد.
+
+يُجري BAND تدقيقًا على التكرارات الواضحة، وحدات المباني غير المحددة، الفتحات الأكبر من السطح، الخصومات غير المنطقية، والأبعاد الناقصة قبل إخراج التقرير أو المزامنة. لا تغني هذه المراجعة الآلية عن توقيع مهندس المكتب الفني ومقارنة الحصر باللوحات.
+
+## مراجع طريقة القياس
+
+- RICS NRM: https://www.rics.org/profession-standards/rics-standards-and-guidance/sector-standards/construction-standards/nrm
+- RICS NRM 2 (مرجع لوجود قواعد تعاقدية مختلفة للمباني وخصومات الفتحات): https://www.rics.org/content/dam/ricsglobal/documents/standards/nrm_2_detailed_measurement_for_building_works_1st_edition_rics.pdf
+
+## 10. حدود كشف التكرار الآلي
+
+يكشف النظام السجلات المتطابقة عند تطابق وصف العنصر والموقع/المحور والأبعاد الحاكمة، ويرفض فتحات تتجاوز أبعاد السطح وخصومات سالبة أو أكبر من الكمية المتبقية. لكنه لا يستطيع إثبات تداخل عنصرين مكانيًا إذا أُدخل العنصر نفسه تحت مرجعين أو موقعين نصيين مختلفين، لأن النموذج الحالي لا يخزن إحداثيات بدايات ونهايات كل عنصر. لذلك يجب توحيد مراجع المحاور والمواقع ومراجعة تداخل الخرسانة والحفر مع اللوحات. ولا يفترض خصمًا تعاقديًا للفتحات أو التقاطعات من تلقاء نفسه.

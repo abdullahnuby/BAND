@@ -1,4 +1,4 @@
-# BAND — Engineering Quantity Takeoff Platform 2.1.2
+# BAND — Engineering Quantity Takeoff Platform 2.2.2
 
 BAND is an Arabic, RTL-first construction quantity-takeoff workspace. Version 2.1 expands the takeoff into structural concrete, excavation/filling, masonry wall volume by thickness, insulation by selectable unit, finishes, and dedicated measurement-sheet printing. It keeps local browser storage and JSON backup; optional account-based cloud workspaces use PostgreSQL.
 
@@ -94,8 +94,14 @@ npm test
 npm run build
 ```
 
-The tests cover Arabic decimal parsing, wall/opening deductions, masonry thickness-to-volume conversion, concrete and earthwork volumes, insulation in four measurement units, ceiling treatment, floors, doors/windows, stairs, facades and workspace payload validation. The build checks server/API JavaScript syntax and the in-page application script before preparing `dist/`.
+The 14 tests cover Arabic/decimal parsing, wall/opening deductions, masonry thickness-to-unit suggestions and physical-wall de-duplication, concrete and earthwork volumes, insulation in four measurement units, ceiling treatment, floors, doors/windows, stairs, facades, duplicate records, and workspace validation. The build checks server/API JavaScript syntax and the in-page application script before preparing `dist/`.
 
 ## Engineering measurement basis
 
 Read [`docs/MEASUREMENT-RULES.md`](docs/MEASUREMENT-RULES.md) before using output on live work. Wall corner/intersection lengths, opening deduction conventions, backfill compaction, and BOQ units must follow the project contract and specifications. BAND is a geometry-first takeoff aid, not a formally certified or universally contract-compliant measurement engine. Verify quantities against drawings before procurement/valuation/contractual approval. The server currently persists whole workspaces transactionally by replacing each project's module records, which is suitable as an initial cloud-sync design; high-volume collaboration should move to per-record/module mutation endpoints and explicit change events.
+
+
+## Measurement safeguards (2.2.2)
+- 12.5 cm and below suggests m² for masonry; 24.5 cm and above suggests m³. Other wall thicknesses require an explicit unit choice. Contract BOQ rules always override the suggestion.
+- Pre-output audit blocks printing, CSV export, and cloud synchronization for invalid openings, negative/excessive deductions, missing geometry, and clear duplicate records.
+- Exact duplicate detection cannot infer every spatial intersection without axis coordinates or endpoints; these must still be checked against the drawings.

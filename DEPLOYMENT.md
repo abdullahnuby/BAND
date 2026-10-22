@@ -1,3 +1,5 @@
+# BAND 2.2.2 — تعليمات النشر
+
 # Deploy BAND on Vercel + Neon
 
 ## Environment variables
