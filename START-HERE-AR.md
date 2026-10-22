@@ -51,3 +51,8 @@ BAND مساعد حسابي وليس شهادة اعتماد. راجع دائمً
 ## Contractor rates and assumptions
 
 Read [`docs/MATERIAL-RATES.md`](docs/MATERIAL-RATES.md) before relying on contractor material quantities. Default consumption figures are editable estimates and must be checked against project specifications, mix designs, and manufacturer data sheets.
+
+
+## إصدار 2.4.0 — تجربة البداية
+
+عند فتح BAND ستظهر صفحة ترحيب بثلاثة مسارات: الحصر الهندسي، حصر المقاول والخامات، وتقدير شقة سريع. اختر المسار للدخول إلى مساحة عمل مخصصة. للرجوع واختيار مسار آخر، استخدم زر «تغيير طريقة العمل» داخل صفحات العمل. لم يتم حذف أي بيانات محفوظة؛ تم تغيير صفحة البداية فقط.

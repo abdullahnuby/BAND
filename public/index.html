@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10253f">
 <meta name="application-name" content="BAND">
+<meta name="application-version" content="2.4.0">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta name="description" content="BAND — منصة الحصر الهندسي وإدارة كميات المباني والتشطيبات.">
 <title>BAND | منصة الحصر الهندسي وإدارة الكميات</title>
@@ -151,10 +152,126 @@
 .audit-alert strong{display:block;color:#963f17;margin-bottom:5px}
 .audit-alert ul{margin:5px 0 0;padding-inline-start:20px;font-size:12px}
 .audit-alert li{margin:3px 0}
+
+/* BAND 2.3.2 — real segmented mode selector and reliable mobile navigation */
+.mode-switch-wrap{margin:0 0 16px;min-width:0}
+.mode-switch-caption{font-size:12px;font-weight:700;color:var(--muted);margin:0 3px 6px}
+.mode-switch{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:6px;border:1px solid var(--line);border-radius:16px;background:#e5edf4;box-shadow:0 5px 16px rgba(16,37,63,.045);min-width:0}
+.mode-btn{appearance:none;-webkit-appearance:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:100%;min-width:0;min-height:60px;padding:9px 10px;border:1px solid transparent;border-radius:11px;background:transparent;color:#42586e;text-align:center;white-space:normal;line-height:1.4;box-shadow:none}
+.mode-btn strong{font-size:14px;font-weight:700;line-height:1.4;overflow-wrap:anywhere}
+.mode-btn small{display:block;color:#738395;font-size:11px;line-height:1.35;font-weight:500}
+.mode-btn:hover{background:rgba(255,255,255,.55)}
+.mode-btn.active{background:#fff;border-color:#b8e5df;color:#0d635d;box-shadow:0 3px 10px rgba(16,37,63,.07)}
+.mode-btn.active small{color:#4e7a78}
+.mobile-module-picker{display:none}
+@media(max-width:700px){
+  .mode-switch-wrap{margin:0 0 10px}
+  .mode-switch-caption{font-size:11px;margin:0 2px 5px}
+  .mode-switch{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:4px;border-radius:13px}
+  .mode-btn{min-height:48px;padding:7px 4px;border-radius:9px}
+  .mode-btn strong{font-size:12px;line-height:1.35}
+  .mode-btn small{display:none}
+  .app[data-active-module="home"] .sidebar{display:none!important}
+  .mobile-module-picker{display:flex;align-items:center;gap:8px;width:100%;min-width:0}
+  .mobile-module-picker label{flex:0 0 auto;font-size:11px;color:var(--muted);font-weight:700;white-space:nowrap}
+  .mobile-module-picker select{flex:1 1 auto;width:100%;min-width:0;height:40px;padding:7px 10px;border:1px solid var(--line);border-radius:9px;background:#f8fafc;color:var(--ink);font:inherit;font-size:12px}
+  .sidebar{position:static;top:auto;z-index:auto;padding:8px;margin:0 0 10px;border-radius:12px;overflow:visible;box-shadow:0 3px 10px rgba(16,37,63,.05)}
+  .nav{display:none!important}
+}
+@media(max-width:390px){
+  .mode-switch{gap:3px;padding:3px}
+  .mode-btn{padding:6px 3px;min-height:46px}
+  .mode-btn strong{font-size:11px}
+}
+
+
+/* BAND 2.4.0 — welcome first, then separate workspaces */
+.app[data-mode="welcome"] .top-actions{display:none!important}
+.app[data-mode="welcome"] .layout{display:block!important}
+.app[data-mode="welcome"] .sidebar{display:none!important}
+.app[data-mode="welcome"] .content{width:100%;max-width:1200px;margin-inline:auto}
+.welcome-page{max-width:1180px;margin:0 auto 20px;min-width:0}
+.welcome-hero{position:relative;isolation:isolate;overflow:hidden;border-radius:24px;padding:clamp(22px,4vw,38px);background:radial-gradient(circle at 8% 8%,rgba(20,168,155,.25),transparent 32%),linear-gradient(120deg,#10253f,#193f63);color:#fff;box-shadow:0 14px 32px rgba(16,37,63,.12);margin-bottom:20px}
+.welcome-hero:after{content:"B";position:absolute;z-index:-1;left:3%;bottom:-70px;font:900 260px/1 Arial,sans-serif;color:rgba(255,255,255,.035);pointer-events:none}
+.welcome-hero-brand{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:11px}
+.welcome-hero-brand .welcome-mark{width:36px;height:36px;display:grid;place-items:center;border-radius:10px;background:#eafffb;color:#0c7d74;font:800 23px/1 Arial,sans-serif;box-shadow:inset 0 0 0 1px #b5e5df}
+.welcome-eyebrow{font-size:12px;font-weight:700;color:#bfe3e0}
+.welcome-free{display:inline-flex;align-items:center;gap:5px;margin-inline-start:auto;border:1px solid rgba(126,219,208,.55);background:rgba(20,168,155,.14);color:#c9fff7;border-radius:30px;padding:5px 10px;font-size:11px;font-weight:700}
+.welcome-hero h2{font-size:clamp(28px,3.5vw,42px);line-height:1.3;margin:0;color:#fff}
+.welcome-hero h2 span{color:#68ded1}
+.welcome-hero p{max-width:770px;font-size:clamp(13px,1.5vw,16px);line-height:1.9;color:#d6e4f0;margin:10px 0 19px}
+.welcome-steps{display:flex;gap:8px;flex-wrap:wrap}
+.welcome-steps span{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(216,233,245,.18);background:rgba(255,255,255,.065);color:#ecf7ff;padding:7px 11px;border-radius:10px;font-size:11px}
+.welcome-steps b{display:grid;place-items:center;width:21px;height:21px;border-radius:50%;background:#14a89b;color:#062f34;font-size:11px}
+.welcome-section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:20px 2px 12px}
+.welcome-section-head .eyebrow{font-size:11px;color:var(--blue);font-weight:800}
+.welcome-section-head h3{font-size:clamp(19px,2.3vw,25px);line-height:1.4;margin:2px 0 0;color:var(--navy)}
+.welcome-section-head p{font-size:12px;color:var(--muted);margin:0}
+.welcome-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;align-items:stretch}
+.welcome-card{appearance:none;-webkit-appearance:none;display:flex;flex-direction:column;align-items:stretch;width:100%;min-width:0;min-height:310px;text-align:right;border:1px solid var(--line);border-radius:19px;padding:20px;background:#fff;box-shadow:0 8px 24px rgba(16,37,63,.055);color:var(--ink);transition:transform .15s,box-shadow .15s,border-color .15s;position:relative;overflow:hidden}
+.welcome-card:after{content:"";position:absolute;left:-42px;bottom:-54px;width:145px;height:145px;border-radius:50%;background:var(--card-soft,#e9f6f4);opacity:.7;pointer-events:none}
+.welcome-card:hover{transform:translateY(-3px);border-color:var(--card-accent,#14a89b);box-shadow:0 14px 30px rgba(16,37,63,.11)}
+.welcome-card:focus-visible{outline:3px solid rgba(20,168,155,.35);outline-offset:3px}
+.welcome-card.engineering{--card-accent:#167c72;--card-soft:#e7f7f3}
+.welcome-card.contractor{--card-accent:#b7791f;--card-soft:#fff4db}
+.welcome-card.estimate{--card-accent:#1769aa;--card-soft:#e9f2fc}
+.welcome-card-top{display:flex;align-items:center;gap:9px;position:relative;z-index:1}
+.welcome-number{font:800 11px/1 Arial,sans-serif;letter-spacing:.8px;color:var(--card-accent);background:var(--card-soft);border-radius:7px;padding:6px 7px}
+.welcome-icon{display:grid;place-items:center;width:48px;height:48px;border-radius:14px;background:var(--card-soft);color:var(--card-accent);font-size:24px}
+.welcome-card-badge{margin-inline-start:auto;font-size:10px;font-weight:700;color:var(--card-accent);background:var(--card-soft);padding:5px 8px;border-radius:30px}
+.welcome-card h4{font-size:20px;line-height:1.4;color:var(--navy);margin:16px 0 6px;position:relative;z-index:1}
+.welcome-card .welcome-card-desc{font-size:12px;line-height:1.85;color:var(--muted);margin:0 0 12px;position:relative;z-index:1}
+.welcome-card ul{list-style:none;display:grid;gap:7px;padding:0;margin:0 0 18px;position:relative;z-index:1}
+.welcome-card li{position:relative;padding-inline-start:18px;font-size:11px;line-height:1.55;color:#44586b}
+.welcome-card li:before{content:"✓";position:absolute;inset-inline-start:0;color:var(--card-accent);font-weight:900}
+.welcome-card-footer{display:flex;align-items:center;justify-content:space-between;gap:9px;margin-top:auto;padding-top:12px;border-top:1px solid #edf1f5;color:var(--card-accent);font-size:12px;font-weight:800;position:relative;z-index:1}
+.welcome-card-footer .arrow{font-size:19px;transition:transform .15s}
+.welcome-card:hover .welcome-card-footer .arrow{transform:translateX(-3px)}
+.welcome-bottom{display:grid;grid-template-columns:1.15fr 1fr;gap:12px;margin-top:14px}
+.welcome-bottom-item{display:flex;align-items:flex-start;gap:10px;border:1px solid var(--line);border-radius:13px;padding:13px 15px;background:rgba(255,255,255,.75)}
+.welcome-bottom-icon{display:grid;place-items:center;flex:0 0 30px;width:30px;height:30px;border-radius:9px;background:#e7f7f3;color:#167c72;font-size:15px;font-weight:800}
+.welcome-bottom-item strong{display:block;font-size:12px;color:var(--navy);margin-bottom:2px}
+.welcome-bottom-item p{font-size:11px;color:var(--muted);line-height:1.65;margin:0}
+.welcome-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#7c8b9a;font-size:10px;padding:17px 2px 4px}
+.mode-context{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.mode-context .context-pill{font-size:11px;font-weight:800;border-radius:8px;background:#e7f7f3;color:#0d635d;padding:5px 9px}
+.mode-context .change-mode{font-size:11px}
+@media(max-width:900px){.welcome-cards{gap:9px}.welcome-card{padding:15px;min-height:300px}.welcome-card h4{font-size:18px}}
+@media(max-width:700px){
+ .app{padding:10px}
+ .app[data-mode="welcome"] .topbar{padding:13px 14px;margin-bottom:12px;border-radius:16px;min-height:0}
+ .app[data-mode="welcome"] .brand-mark{width:44px;height:44px;flex-basis:44px;border-radius:12px}
+ .app[data-mode="welcome"] .brand-mark svg{width:31px;height:31px}
+ .app[data-mode="welcome"] .brand h1{font-size:21px}
+ .app[data-mode="welcome"] .brand p{font-size:11px}
+ .welcome-hero{padding:20px 17px;border-radius:18px;margin-bottom:17px}
+ .welcome-hero:after{font-size:190px;bottom:-48px}
+ .welcome-hero h2{font-size:28px}
+ .welcome-hero p{font-size:13px;line-height:1.8;margin:8px 0 14px}
+ .welcome-steps{gap:6px}
+ .welcome-steps span{font-size:10px;padding:6px 8px}
+ .welcome-section-head{margin:16px 2px 10px;align-items:flex-start;flex-direction:column;gap:3px}
+ .welcome-section-head h3{font-size:20px}
+ .welcome-cards{grid-template-columns:minmax(0,1fr);gap:9px}
+ .welcome-card{min-height:0;padding:15px;border-radius:15px;display:grid;grid-template-columns:minmax(0,1fr);gap:0}
+ .welcome-card-top{gap:8px}
+ .welcome-icon{width:41px;height:41px;flex-basis:41px;border-radius:12px;font-size:21px}
+ .welcome-card h4{font-size:17px;margin:10px 0 3px}
+ .welcome-card .welcome-card-desc{font-size:11px;line-height:1.7;margin-bottom:8px}
+ .welcome-card ul{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:9px;row-gap:5px;margin-bottom:11px}
+ .welcome-card li{font-size:10px;padding-inline-start:15px}
+ .welcome-card-footer{padding-top:9px;font-size:11px}
+ .welcome-bottom{grid-template-columns:minmax(0,1fr);gap:8px;margin-top:10px}
+ .welcome-bottom-item{padding:11px 12px}
+ .welcome-footer{align-items:flex-start;flex-direction:column;padding-top:12px}
+ .mode-context{margin-bottom:9px}
+}
+@media(max-width:370px){.welcome-hero h2{font-size:25px}.welcome-card ul{grid-template-columns:minmax(0,1fr)}.welcome-free{font-size:10px}}
+
 </style>
 </head>
 <body>
-<div class="app">
+<div class="app" data-mode="welcome" data-active-module="home">
 <header class="topbar">
   <div class="brand">
     <div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" role="img" aria-label="BAND">
@@ -175,14 +292,13 @@
     <button class="btn primary" data-action="print" type="button">طباعة / PDF</button>
   </div>
 </header>
-<div id="modeSwitch" class="mode-switch" role="tablist" aria-label="طريقة استخدام BAND">
-  <button type="button" data-action="set-mode" data-mode="engineering" class="mode-btn active"><strong>حصر هندسي</strong><small>الكميات حسب اللوحات</small></button>
-  <button type="button" data-action="set-mode" data-mode="contractor" class="mode-btn"><strong>حصر المقاول والخامات</strong><small>المواد والاستهلاك والهالك</small></button>
-  <button type="button" data-action="set-mode" data-mode="estimate" class="mode-btn"><strong>تقدير شقة سريع</strong><small>من أبعاد الفراغات</small></button>
-</div>
 <div class="layout">
   <aside class="sidebar">
     <div class="side-label">القائمة الرئيسية</div>
+    <div class="mobile-module-picker">
+      <label for="mobileModuleSelect">انتقل إلى بند</label>
+      <select id="mobileModuleSelect" aria-label="انتقل إلى بند"><option value="">اختر بند الحصر</option></select>
+    </div>
     <nav class="nav" id="nav"></nav>
     <div class="sidebar-foot"><strong>حفظ محلي + سحابي اختياري</strong>يُحفظ عملك على هذا الجهاز تلقائيًا. اربط حسابًا لحفظ المشاريع ومزامنتها على أجهزتك.</div>
   </aside>
@@ -252,11 +368,11 @@ const modules=[
  {id:'facades',label:'الواجهات',icon:'▥',section:'التشطيبات والعزل'},
  {id:'report',label:'التقارير وشيتات الحصر',icon:'▤',section:'التقارير'}
 ];
-const defaultState=()=>({version:4,meta:{project:'',client:'',notes:''},rooms:[],masonryWalls:[],concrete:[],earthworks:[],insulation:[],floors:[],doorsWindows:[],sanitary:[],stairs:[],facades:[],apartmentSpaces:[],materialRates:{...(MaterialRules.DEFAULT_MATERIAL_RATES||{})},ui:{active:'home',mode:'engineering',expandedRooms:[],expandedFacades:[],expandedMasonryWalls:[],reportScope:'all'},editing:{}});
+const defaultState=()=>({version:4,meta:{project:'',client:'',notes:''},rooms:[],masonryWalls:[],concrete:[],earthworks:[],insulation:[],floors:[],doorsWindows:[],sanitary:[],stairs:[],facades:[],apartmentSpaces:[],materialRates:{...(MaterialRules.DEFAULT_MATERIAL_RATES||{})},ui:{active:'home',mode:'welcome',expandedRooms:[],expandedFacades:[],expandedMasonryWalls:[],reportScope:'all'},editing:{}});
 const isRecord=value=>!!value&&typeof value==='object'&&!Array.isArray(value);
 function normalizeClientState(input,activeFallback='home'){
  const base=defaultState(),source=isRecord(input)?input:{},meta=isRecord(source.meta)?source.meta:{},ui=isRecord(source.ui)?source.ui:{};
- const state={...base,...source,meta:{project:typeof meta.project==='string'?meta.project:'',client:typeof meta.client==='string'?meta.client:'',notes:typeof meta.notes==='string'?meta.notes:''},materialRates:{...base.materialRates,...(isRecord(source.materialRates)?source.materialRates:{})},apartmentSpaces:Array.isArray(source.apartmentSpaces)?source.apartmentSpaces.filter(isRecord):[],ui:{...base.ui,...ui,mode:['engineering','contractor','estimate'].includes(ui.mode)?ui.mode:'engineering',active:modules.some(m=>m.id===ui.active)?ui.active:(modules.some(m=>m.id===activeFallback)?activeFallback:'home'),expandedRooms:Array.isArray(ui.expandedRooms)?ui.expandedRooms.filter(x=>typeof x==='string'):[],expandedFacades:Array.isArray(ui.expandedFacades)?ui.expandedFacades.filter(x=>typeof x==='string'):[],reportScope:typeof ui.reportScope==='string'?ui.reportScope:'all'},editing:{}};
+ const state={...base,...source,meta:{project:typeof meta.project==='string'?meta.project:'',client:typeof meta.client==='string'?meta.client:'',notes:typeof meta.notes==='string'?meta.notes:''},materialRates:{...base.materialRates,...(isRecord(source.materialRates)?source.materialRates:{})},apartmentSpaces:Array.isArray(source.apartmentSpaces)?source.apartmentSpaces.filter(isRecord):[],ui:{...base.ui,...ui,mode:['welcome','engineering','contractor','estimate'].includes(ui.mode)?ui.mode:'welcome',active:modules.some(m=>m.id===ui.active)?ui.active:(modules.some(m=>m.id===activeFallback)?activeFallback:'home'),expandedRooms:Array.isArray(ui.expandedRooms)?ui.expandedRooms.filter(x=>typeof x==='string'):[],expandedFacades:Array.isArray(ui.expandedFacades)?ui.expandedFacades.filter(x=>typeof x==='string'):[],reportScope:typeof ui.reportScope==='string'?ui.reportScope:'all'},editing:{}};
  for(const key of ['rooms','masonryWalls','concrete','earthworks','insulation','floors','doorsWindows','sanitary','stairs','facades'])state[key]=Array.isArray(source[key])?source[key].filter(isRecord):[];
  state.rooms=state.rooms.map(room=>({...room,walls:(Array.isArray(room.walls)?room.walls:[]).filter(isRecord).map(wall=>({...wall,openings:(Array.isArray(wall.openings)?wall.openings:[]).filter(isRecord)}))}));
  state.masonryWalls=state.masonryWalls.map(wall=>({...wall,openings:(Array.isArray(wall.openings)?wall.openings:[]).filter(isRecord)}));
@@ -267,6 +383,8 @@ function normalizeClientState(input,activeFallback='home'){
 }
 let S=defaultState(),toastTimer;
 try{const savedText=localStorage.getItem(STORE)||localStorage.getItem(LEGACY_STORE);const saved=JSON.parse(savedText);if(isRecord(saved))S=normalizeClientState(saved);}catch(e){}
+// Enter through the welcome page once per browser tab; refreshes inside a workspace resume the current route.
+try{if(!sessionStorage.getItem('band-welcome-first-visit-v1')){S.ui.active='home';S.ui.mode='welcome';sessionStorage.setItem('band-welcome-first-visit-v1','1')}}catch(e){S.ui.active='home';S.ui.mode='welcome'}
 function persist(){try{localStorage.setItem(STORE,JSON.stringify({...S,editing:{}}));}catch(e){showToast('تعذر الحفظ المحلي. صدّر نسخة احتياطية.',true)}if(!cloudApplying)queueCloudSave()}
 function showToast(message,error=false){const el=$('#toast');el.textContent=message;el.className='toast show'+(error?' error':'');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.className='toast',2700)}
 
@@ -296,21 +414,67 @@ $('#cloudLogoutBtn').addEventListener('click',async()=>{try{await cloudRequest('
 const n=v=>{const x=Number(String(v??'').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[٫،,]/g,'.'));return Number.isFinite(x)?x:0};
 const fmt=v=>Number.isFinite(v)?v.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:2}):'0';
 const m2=v=>fmt(v)+' م²', m3=v=>fmt(v)+' م³', lm=v=>fmt(v)+' م طولي', unitLabel=u=>u==='m2'?'م²':u==='m3'?'م³':u==='lm'?'م طولي':'عدد';
-function pageTitle(id){return modules.find(x=>x.id===id)?.label||'BAND'}
+function pageTitle(id){if(id==='home'){if(S.ui.mode==='engineering')return 'مساحة الحصر الهندسي';if(S.ui.mode==='contractor')return 'حصر المقاول والخامات';if(S.ui.mode==='estimate')return 'تقدير الشقة';return 'الرئيسية'}return modules.find(x=>x.id===id)?.label||'BAND'}
 function getStats(){
  let wall=0,open=0,ceil=0;S.rooms.forEach(r=>{const x=roomMath(r);wall+=x.net;open+=x.open;ceil+=x.ceiling});
  const masonry=S.masonryWalls.map(w=>masonryWallMath(w));
  return {rooms:S.rooms.length,wall,open,ceil,floors:S.floors.reduce((a,r)=>a+floorArea(r),0),windows:S.doorsWindows.reduce((a,r)=>a+(n(r.qty)||0),0),sanitary:S.sanitary.reduce((a,r)=>a+n(r.qty),0),facades:S.facades.length,concrete:S.concrete.reduce((a,r)=>a+concreteQuantity(r).net,0),earthworks:S.earthworks.reduce((a,r)=>a+earthworkQuantity(r),0),masonryWalls:S.masonryWalls.length,masonryM2:masonry.reduce((a,x)=>a+(x.unit==='m2'?x.quantity:0),0),masonryM3:masonry.reduce((a,x)=>a+(x.unit==='m3'?x.quantity:0),0)}
 }
-function nav(){let section='';$('#nav').innerHTML=modules.map(m=>{const label=m.section!==section?`<div class="side-label">${m.section}</div>`:'';section=m.section;return label+`<button type="button" class="nav-btn ${S.ui.active===m.id?'active':''}" data-action="navigate" data-module="${m.id}"><span class="ico">${m.icon}</span><span class="nav-text">${m.label}</span></button>`}).join('')}
-function head(id,desc,actions=''){return `<div class="page-head"><div><div class="eyebrow">BAND / ${id==='home'?'نظرة عامة':'الحصر والكميات'}</div><h2>${pageTitle(id)}</h2><p>${desc}</p></div><div class="head-actions">${actions}</div></div>`}
+function modulesForMode(){
+ const common=['home','report'];
+ if(S.ui.mode==='welcome')return [];
+ if(S.ui.mode==='estimate')return modules.filter(m=>['home','apartmentEstimate','materials','report'].includes(m.id));
+ if(S.ui.mode==='contractor')return modules.filter(m=>[...common,'materials','concrete','earthworks','masonry','insulation','plaster','paint','floors','doorsWindows','sanitary','stairs','facades'].includes(m.id));
+ return modules.filter(m=>[...common,'concrete','earthworks','masonry','insulation','plaster','paint','floors','doorsWindows','sanitary','stairs','facades'].includes(m.id));
+}
+function nav(){const visible=modulesForMode();let section='';$('#nav').innerHTML=visible.map(m=>{const label=m.section!==section?`<div class="side-label">${m.section}</div>`:'';section=m.section;return label+`<button type="button" class="nav-btn ${S.ui.active===m.id?'active':''}" data-action="navigate" data-module="${m.id}"><span class="ico">${m.icon}</span><span class="nav-text">${m.label}</span></button>`}).join('');const picker=$('#mobileModuleSelect');if(picker){picker.innerHTML='<option value="">انتقل إلى بند الحصر…</option>'+visible.filter(m=>m.id!=='home').map(m=>`<option value="${m.id}">${m.section} — ${m.label}</option>`).join('');picker.value=visible.some(m=>m.id===S.ui.active)&&S.ui.active!=='home'?S.ui.active:''}}
+function head(id,desc,actions=''){const back=S.ui.mode!=='welcome'?`<button type="button" class="btn sm mode-back" data-action="back-to-start">↩ تغيير طريقة العمل</button>`:'';return `<div class="page-head"><div><div class="eyebrow">BAND / ${id==='home'?'مساحة العمل':'الحصر والكميات'}</div><h2>${pageTitle(id)}</h2><p>${desc}</p></div><div class="head-actions">${back}${actions}</div></div>`}
 function btn(label,action,cls='btn',attrs=''){return `<button type="button" class="${cls}" data-action="${action}" ${attrs}>${label}</button>`}
 function stat(label,value,sub=''){return `<div class="stat"><div class="stat-label">${label}</div><strong>${value}</strong>${sub?`<small>${sub}</small>`:''}</div>`}
 function moduleCard(m,desc,meta,color,soft){return `<button class="module-card" style="--accent-color:${color};--accent-soft:${soft}" data-action="navigate" data-module="${m.id}" type="button"><span class="module-icon">${m.icon}</span><strong>${m.label}</strong><p>${desc}</p><span class="module-meta">${meta} <span aria-hidden="true">←</span></span></button>`}
-function modeSwitchRender(){const el=$('#modeSwitch');if(!el)return;el.querySelectorAll('[data-mode]').forEach(b=>{b.classList.toggle('active',b.dataset.mode===S.ui.mode);b.setAttribute('aria-selected',b.dataset.mode===S.ui.mode?'true':'false')})}
+function renderWelcome(){
+ const savedItems=S.rooms.length+S.masonryWalls.length+S.concrete.length+S.earthworks.length+S.insulation.length+S.floors.length+S.doorsWindows.length+S.sanitary.length+S.stairs.length+S.facades.length+(S.apartmentSpaces||[]).length;
+ return `<div class="welcome-page">
+ <section class="welcome-hero">
+  <div class="welcome-hero-brand"><span class="welcome-mark">B</span><span class="welcome-eyebrow">منصة الحصر الهندسي وإدارة الكميات</span><span class="welcome-free">✦ متاحة مجانًا</span></div>
+  <h2>أهلًا بيك في <span>BAND</span></h2>
+  <p>منصة واحدة تساعدك تنظم الحصر من أول قياس الكميات لحد تجهيز الخامات والتقارير. اختار طريقة الشغل المناسبة لاحتياجك، وابدأ خطوة بخطوة — حتى لو دي أول مرة تستخدم أداة حصر.</p>
+  <div class="welcome-steps"><span><b>١</b> اختار طريقة العمل</span><span><b>٢</b> أدخل الأبعاد والكميات</span><span><b>٣</b> راجع الناتج وصدّر التقرير</span></div>
+ </section>
+ <section aria-labelledby="welcomeOptionsTitle">
+  <div class="welcome-section-head"><div><div class="eyebrow">ابدأ من هنا</div><h3 id="welcomeOptionsTitle">إيه اللي محتاج تعمله النهارده؟</h3></div><p>3 مسارات واضحة — كل مسار له مساحة عمل تناسبه.</p></div>
+  <div class="welcome-cards">
+   <button type="button" class="welcome-card engineering" data-action="set-mode" data-mode="engineering" aria-label="ابدأ الحصر الهندسي">
+    <span class="welcome-card-top"><span class="welcome-number">01</span><span class="welcome-icon">▦</span><span class="welcome-card-badge">للمهندس والمكتب الفني</span></span>
+    <h4>الحصر الهندسي</h4><p class="welcome-card-desc">لو عندك رسومات أو أبعاد فعلية وعايز تحصر البنود بدقة وتراجع الكميات قبل المقايسة.</p>
+    <ul><li>خرسانات وحفر ومباني</li><li>سمك الحائط والفتحات والخصومات</li><li>تشطيبات وواجهات وسلالم</li></ul>
+    <span class="welcome-card-footer"><span>ابدأ الحصر الهندسي</span><span class="arrow" aria-hidden="true">←</span></span>
+   </button>
+   <button type="button" class="welcome-card contractor" data-action="set-mode" data-mode="contractor" aria-label="ابدأ حصر المقاول والخامات">
+    <span class="welcome-card-top"><span class="welcome-number">02</span><span class="welcome-icon">⚒</span><span class="welcome-card-badge">للمقاول والمشتريات</span></span>
+    <h4>حصر المقاول والخامات</h4><p class="welcome-card-desc">حوّل الكمية المقاسة إلى احتياج مبدئي للشراء، مع اختيار معدلات الاستهلاك والهالك.</p>
+    <ul><li>أسمنت ورمل وزلط وطوب</li><li>دهانات وعزل ولاصق وأرضيات</li><li>خشب وإكسسوارات وزجاج وكلادينج</li></ul>
+    <span class="welcome-card-footer"><span>افتح حصر الخامات</span><span class="arrow" aria-hidden="true">←</span></span>
+   </button>
+   <button type="button" class="welcome-card estimate" data-action="set-mode" data-mode="estimate" aria-label="ابدأ تقدير شقة سريع">
+    <span class="welcome-card-top"><span class="welcome-number">03</span><span class="welcome-icon">⌂</span><span class="welcome-card-badge">لصاحب الشقة والمبتدئ</span></span>
+    <h4>تقدير شقة سريع</h4><p class="welcome-card-desc">أدخل أبعاد الغرف والحمامات والمطبخ واحصل على تصور مبدئي للمسطحات والخامات المطلوبة.</p>
+    <ul><li>أرضيات وحيطان وأسقف</li><li>سيراميك مع مقاس البلاطة والهالك</li><li>أسمنت ورمل ودهانات تقديرية</li></ul>
+    <span class="welcome-card-footer"><span>ابدأ تقدير الشقة</span><span class="arrow" aria-hidden="true">←</span></span>
+   </button>
+  </div>
+ </section>
+ <div class="welcome-bottom">
+  <div class="welcome-bottom-item"><span class="welcome-bottom-icon">✓</span><div><strong>مش لازم تكون مهندس علشان تبدأ</strong><p>كل مسار فيه شرح مبسط، لكن راجع المواصفات ومعدلات الاستهلاك قبل اعتماد الكميات للشراء.</p></div></div>
+  <div class="welcome-bottom-item"><span class="welcome-bottom-icon">↻</span><div><strong>${savedItems?'بياناتك السابقة ما زالت موجودة':'بياناتك محفوظة على نفس المتصفح'}</strong><p>${savedItems?'وجدنا بيانات حصر محفوظة على هذا الجهاز. اختار المسار المناسب للمتابعة من غير حذف بياناتك.':'الحفظ المحلي يعمل تلقائيًا؛ النسخ الاحتياطي يتيح لك نقل شغلك إلى جهاز آخر.'}</p></div></div>
+ </div>
+ <div class="welcome-footer"><span>BAND — أداة عملية لتسهيل الحصر ومراجعة الكميات.</span><span>اختار مسارًا للبدء، ويمكنك الرجوع وتغيير المسار في أي وقت.</span></div>
+ </div>`
+}
 function renderHome(){
- if(S.ui.mode==='contractor')return head('home','من الكمية الهندسية إلى قائمة الخامات المطلوب شراؤها، مع معدلات قابلة للتعديل وملاحظات واضحة للاستهلاك.')+`<div class="notice"><strong>طريقة المقاول:</strong> استخدم الكميات المقاسة ثم حوّلها إلى خامات شراء. النسب الافتراضية تقديرية وقابلة للتعديل؛ الخرسانة المسلحة تتطلب تصميم خلطة معتمدًا، والدهانات والعزل واللاصق تتبع نشرة المنتج وظروف الموقع.</div><div class="mode-hero"><div><span class="pill gold">حصر المقاول</span><h3>الكميات التي تقيسها… تتحول إلى خامات تطلبها</h3><p>أسمنت، رمل، زلط، طوب، سيلر، معجون، دهان، بلاط، لاصق، خشب وإكسسوارات، وزجاج/كلادينج للواجهات الحديثة.</p><button class="btn primary" data-action="navigate" data-module="materials">فتح حصر المقاول والخامات ←</button></div><div class="mode-hero-stats">${stat('خرسانة صافية',m3(S.concrete.reduce((a,r)=>a+concreteQuantity(r).net,0)))}${stat('مباني مسجلة',fmt(S.masonryWalls.length)+' حائط')}${stat('مسطحات التشطيب',m2(S.rooms.reduce((a,r)=>a+roomQty(r,'paint'),0)))}</div></div><div class="card"><div class="card-head"><div><h3>قبل حساب الخامات</h3><p>أكمل القياس الهندسي أولًا؛ مادة الشراء تُحسب من الكمية الصافية ومعدل الاستهلاك والهالك.</p></div></div><div class="module-grid compact">${moduleCard(modules.find(m=>m.id==='concrete'),'كمية الخرسانة الصافية حسب الأبعاد والتداخلات.','حصر بالمتر المكعب','#1769aa','#e9f2fc')}${moduleCard(modules.find(m=>m.id==='masonry'),'سجل الحائط المادي مرة واحدة مع السمك والفتحات ونوع الطوب.','حصر بالمتر المربع أو المكعب','#b7791f','#fff4db')}${moduleCard(modules.find(m=>m.id==='plaster'),'أوجه الحوائط والأسقف بعد خصم الفتحات.','م²','#167c72','#e7f7f3')}${moduleCard(modules.find(m=>m.id==='floors'),'المسطحات الصافية للأرضيات حسب الخامة.','م²','#6b4eb5','#f1edfc')}</div></div>`;
- if(S.ui.mode==='estimate')return head('home','تقدير مبدئي لشقة من أبعاد الغرف والحمامات والمطبخ، ثم كشف كميات شراء استرشادي.')+`<div class="mode-hero"><div><span class="pill blue">كميات تقديرية</span><h3>أدخل أبعاد الفراغات وشاهد مقايسة مواد مبدئية</h3><p>سنحسب الأرضيات ووجوه التشطيب والدهانات ومواد المحارة والبلاط. لا نولّد المباني من محيط الغرف حتى لا نكرر الحوائط المشتركة؛ أدخل جسم كل حائط مرة واحدة في سجل المباني.</p><button class="btn primary" data-action="navigate" data-module="apartmentEstimate">ابدأ تقدير الشقة ←</button></div><div class="mode-hero-stats">${stat('فراغات التقدير',S.apartmentSpaces.length)}${stat('المسطحات',m2(S.apartmentSpaces.reduce((a,x)=>a+(MaterialRules.apartmentSpaceQuantities?MaterialRules.apartmentSpaceQuantities(x).floorAreaM2:0),0)))}</div></div>`;
+ if(S.ui.mode==='welcome')return renderWelcome();
+ if(S.ui.mode==='contractor')return head('home','حوّل الكميات الهندسية إلى قائمة خامات شراء بمعدلات استهلاك وهالك قابلة للمراجعة.')+`<div class="notice"><strong>مساحة عمل المقاول:</strong> ابدأ بإدخال الكميات أو راجع الكميات الهندسية المسجلة، ثم احسب الخامات وفق المعدلات التي تختارها. النتائج تقديرية ويجب مطابقتها مع نشرة المنتج ومواصفات المشروع.</div><div class="mode-hero"><div><span class="pill gold">حصر المقاول</span><h3>من الكمية المقاسة إلى احتياج الخامات</h3><p>أسمنت، رمل، زلط، طوب، سيلر، معجون، دهان، بلاط، لاصق، خشب وإكسسوارات، وزجاج وكلادينج للواجهات.</p><button class="btn primary" data-action="navigate" data-module="materials">ابدأ حصر الخامات ←</button></div><div class="mode-hero-stats">${stat('خرسانة صافية',m3(S.concrete.reduce((a,r)=>a+concreteQuantity(r).net,0)))}${stat('حوائط مسجلة',fmt(S.masonryWalls.length)+' حائط')}${stat('فراغات للتشطيب',S.rooms.length)}</div></div><div class="card"><div class="card-head"><div><h3>كيف تستخدم المسار؟</h3><p>ابدأ بالكمية الصافية، ثم طبّق معدل الاستهلاك والهالك كل خامة على حدة.</p></div></div><div class="module-grid compact">${moduleCard(modules.find(m=>m.id==='materials'),'احتياج الأسمنت والرمل والزلط والطوب والدهانات وغيرها من الخامات.','قائمة خامات وتوريد','#b7791f','#fff4db')}${moduleCard(modules.find(m=>m.id==='concrete'),'أدخل الحجوم الخرسانية من الأبعاد، ولا تستخدم نسب خلط افتراضية كبديل للتصميم المعتمد.','م³','#1769aa','#e9f2fc')}${moduleCard(modules.find(m=>m.id==='masonry'),'أدخل كل حائط فعلي مرة واحدة مع السمك والفتحات ومقاس الطوبة.','م² / م³','#167c72','#e7f7f3')}${moduleCard(modules.find(m=>m.id==='report'),'جهّز كشفًا منظمًا للمراجعة والطباعة والتصدير.','PDF / CSV','#6b4eb5','#f1edfc')}</div></div>`;
+ if(S.ui.mode==='estimate')return head('home','أدخل أبعاد الشقة غرفة بغرفة للحصول على مسطحات وكميات خامات تقديرية أولية.')+`<div class="notice"><strong>مساحة تقدير الشقة:</strong> هذا المسار مناسب للتقدير السريع وليس حصرًا تنفيذيًا. لن نستنتج كمية الطوب من محيط الغرف حتى لا نكرر الحوائط المشتركة؛ لإجمالي المباني الدقيق سجّل الحائط الفعلي مرة واحدة في سجل المباني.</div><div class="mode-hero"><div><span class="pill blue">تقدير شقة سريع</span><h3>أدخل أبعاد الغرف واحصل على مقايسة مبدئية</h3><p>الأرضيات والحوائط والأسقف والدهانات ومواد المحارة والبلاط، مع مقاس البلاطة والهالك وبعض الخامات حسب معدلاتك.</p><button class="btn primary" data-action="navigate" data-module="apartmentEstimate">ابدأ بإضافة الفراغات ←</button></div><div class="mode-hero-stats">${stat('فراغات محفوظة',S.apartmentSpaces.length)}${stat('تقدير أولي',S.apartmentSpaces.length?'جاهز للمراجعة':'لم يبدأ بعد')}</div></div><div class="card"><div class="card-head"><div><h3>خطوات سريعة</h3><p>ابدأ بقياس كل مساحة مستقلة، ثم راجع الكميات والمعدلات قبل شراء الخامات.</p></div></div><div class="module-grid compact">${moduleCard(modules.find(m=>m.id==='apartmentEstimate'),'أضف الغرف والحمامات والمطبخ بأبعادها، وحدد فتحات الأبواب والشبابيك ومقاس البلاط.','ابدأ التقدير','#1769aa','#e9f2fc')}${moduleCard(modules.find(m=>m.id==='materials'),'عدّل معدلات الاستهلاك والهالك حسب المورد وطريقة التنفيذ.','معدلات الخامات','#b7791f','#fff4db')}</div></div>`;
  return renderEngineeringHome();
 }
 function renderEngineeringHome(){const st=getStats();const card=(id,desc,meta,color,soft)=>moduleCard(modules.find(m=>m.id===id),desc,meta,color,soft);return head('home','منصة حصر واحدة، مقسمة حسب مرحلة العمل ووحدة القياس، مع تقارير منظمة للطباعة والمراجعة.')+`<div class="notice"><strong>ابدأ ببساطة:</strong> اختَر المرحلة ثم البند. ستوضح BAND وحدة القياس وطريقة الحساب، وستفصل بين المساحات بالمتر المربع والأحجام بالمتر المكعب. راجع السماكات والخصومات قبل اعتماد أي كمية.</div><div class="stats">${stat('الفراغات',st.rooms,'للمحارة والدهانات')}${stat('حوائط المباني',st.masonryWalls,'كل حائط فعلي يسجل مرة واحدة')}${stat('المباني بالمتر المسطح',m2(st.masonryM2),'مثل حوائط 12 سم وفق قاعدة التلقائي')}${stat('المباني بالمتر المكعب',m3(st.masonryM3),'مثل حوائط 25 سم وفق قاعدة التلقائي')}${stat('حجم الخرسانات الصافي',m3(st.concrete),'بعد خصومات التداخل المدخلة')}${stat('بنود الحفر والردم',S.earthworks.length,'كل نوع عمل منفصل')}</div><div class="card"><div class="card-head"><div><h3>الهيكل وأعمال الموقع</h3><p>قياس الأحجام بالمتر المكعب مع الأبعاد والعدد والخصومات</p></div></div><div class="module-grid compact">${card('concrete','قواعد وأعمدة وكمرات وبلاطات وعناصر خرسانية أخرى.','حصر بالمتر المكعب','#1769aa','#e9f2fc')}${card('earthworks','حفر عام وخنادق وقواعد وردم وإحلال ونقل ناتج الحفر.','حصر بالمتر المكعب','#b7791f','#fff4db')}</div></div><div class="card"><div class="card-head"><div><h3>المباني</h3><p>سجل مستقل للحوائط الفعلية يمنع احتساب الحائط المشترك مرتين بسبب وجوده في فراغين.</p></div></div><div class="module-grid compact">${card('masonry','كل حائط فعلي له مرجع واحد. السمك 12 سم يقترح م²، و25 سم يقترح م³، مع إمكانية اختيار وحدة المقايسة.','حصر مباني حسب وحدة القياس','#b7791f','#fff4db')}</div></div><div class="card"><div class="card-head"><div><h3>التشطيبات والعزل</h3><p>كل بند يحتفظ بوحدته المناسبة ولا يجمع وحدات مختلفة في إجمالي واحد.</p></div></div><div class="module-grid compact">${card('insulation','عزل مائي وحراري وصوتي بم² أو م³ أو متر طولي أو عدد.','حصر العزل','#167c72','#e7f7f3')}${card('plaster','محارة الحوائط والأسقف مع خصم فتحات كل حائط.','مساحة بالمتر المربع','#1769aa','#e9f2fc')}${card('paint','دهانات الحوائط والأسقف بالكميات الصافية.','مساحة بالمتر المربع','#6b4eb5','#f1edfc')}${card('floors','رخام وسيراميك وبلاط وبورسلين وجرانيت.','الأرضيات','#167c72','#e7f7f3')}${card('doorsWindows','أبواب وشبابيك خشب وألوميتال وUPVC بالمقاس والعدد.','النجارة والألوميتال','#2764a6','#e9f2fc')}${card('sanitary','تجميع الأجهزة الصحية حسب النوع والمكان والعدد.','الأجهزة الصحية','#9a5b95','#f8edf7')}${card('stairs','درجات وقوائم ووزرات وتلابيس بالمتر أو العدد.','السلالم الرخام','#b7791f','#fff4db')}${card('facades','خصم فتحات الواجهة وإضافة أنواع تشطيب متعددة.','حصر الواجهات','#167c72','#e7f7f3')}</div></div><div class="card"><div class="card-head"><div><h3>بيانات المشروع</h3><p>تظهر في شيت الحصر المطبوع والتصدير</p></div></div><div class="form-grid three"><div class="field"><label class="label">اسم المشروع</label><input data-meta="project" value="${esc(S.meta.project)}" placeholder="مثال: عمارة سكنية — الدور الأول"></div><div class="field"><label class="label">المالك / العميل</label><input data-meta="client" value="${esc(S.meta.client)}" placeholder="اسم العميل (اختياري)"></div><div class="field"><label class="label">ملاحظات التقرير</label><input data-meta="notes" value="${esc(S.meta.notes)}" placeholder="مرجع اللوحات / نطاق القياس"></div></div><p class="hint">الحفظ المحلي يعمل تلقائيًا، والتخزين السحابي يتطلب إعداد قاعدة بيانات. من «التقارير وشيتات الحصر» يمكنك إخراج كشف منظم فقط دون طباعة واجهة البرنامج.</p><div class="form-actions">${btn('عرض التقارير وشيتات الحصر','navigate','btn primary','data-module="report"')}</div></div>`}
@@ -588,7 +752,7 @@ function renderApartmentEstimate(){
  return head('apartmentEstimate','تقدير مبدئي للأرضيات والمحارة والدهانات ومستلزماتها من أبعاد الغرف والحمامات والمطبخ، مع إظهار الافتراضات.')+`<div class="notice"><strong>قبل أن تبدأ:</strong> أدخل كل غرفة أو حمام أو مطبخ منفصلًا. هذه أداة تقدير للمساعدة في تجهيز مقايسة أولية؛ لا تستنتج جسم المباني من محيط الغرف، لأن الحائط المشترك يظهر في أكثر من غرفة. لإخراج كمية الطوب، أدخل الحائط الفعلي مرة واحدة من قسم «حصر المباني».</div><section class="card"><div class="card-head"><div><h3>١. بيانات الفراغ الجديد</h3><p>أبعاد الفراغ بالمتر، ومساحة الفتحات الإجمالية التي تخصم من أوجه الحوائط الأربعة.</p></div><span class="pill">خطوة 1 من 2</span></div><form id="estimateSpaceForm"><div class="form-grid"><div class="field"><label class="label">اسم الفراغ</label><input name="name" required placeholder="غرفة نوم 1"></div><div class="field"><label class="label">نوع الفراغ</label><select name="type">${['غرفة','ريسبشن','مطبخ','حمام','ممر','بلكونة','مخزن','أخرى'].map(x=>`<option>${x}</option>`).join('')}</select></div>${genericFormField('الطول (م)','length','','number','4.00','required')}${genericFormField('العرض (م)','width','','number','3.50','required')}${genericFormField('الارتفاع (م)','height',3,'number','3.00','required')}${genericFormField('مساحة فتحات الأبواب الإجمالية (م²)','doorOpeningsM2','','number','مثل 0.9×2.1 = 1.89')}${genericFormField('مساحة فتحات الشبابيك الإجمالية (م²)','windowOpeningsM2','','number','مثل 1.2×1.0 = 1.20')}${genericFormField('عدد الأبواب','doorQty',1,'number','1')}${genericFormField('عدد الشبابيك','windowQty',1,'number','1')}<div class="field"><label class="label">تشطيب الأرضية المتوقع</label><select name="floorFinish">${['سيراميك','بورسلين','رخام','جرانيت','بلاط','أخرى'].map(x=>`<option>${x}</option>`).join('')}</select></div>${genericFormField('طول البلاطة (سم)','tileLengthCm',S.materialRates?.tileLengthCm??MaterialRules.DEFAULT_MATERIAL_RATES.tileLengthCm,'number','60')}${genericFormField('عرض البلاطة (سم)','tileWidthCm',S.materialRates?.tileWidthCm??MaterialRules.DEFAULT_MATERIAL_RATES.tileWidthCm,'number','60')}</div><p class="hint">يمكن تحديد مقاس بلاطة مختلف لكل فراغ؛ تُجمع مشتريات نفس الخامة والمقاس في مجموعة مستقلة. لو عندك أكثر من باب أو شباك، اجمع مساحات الفتحات هنا لأغراض التقدير. للحصر الدقيق أدخل كل فتحة بمقاسها في سجل الحوائط.</p><div class="form-actions"><button class="btn primary" type="submit">إضافة الفراغ للتقدير</button></div></form></section><section class="card"><div class="card-head"><div><h3>٢. الفراغات المدخلة</h3><p>تقدر تضيف كل غرف الشقة والحمامات والمطبخ بالتتابع.</p></div><span class="pill">${q.spaces.length} فراغ</span></div>${spaces?`<div class="estimate-list">${spaces}</div>`:empty('أدخل أبعاد أول غرفة أو حمام أو مطبخ لحساب التقدير.')}</section><section class="card"><div class="card-head"><div><h3>٣. ملخص المسطحات</h3><p>الأسطح داخل الغرف تشمل وجوه الحوائط؛ قد يكون وجه الحائط المشترك ظاهرًا في كل غرفة بشكل صحيح للتشطيبات.</p></div><span class="pill">تقديري</span></div><div class="material-list">${materialKpi('أرضيات صافية',q.floorM2,'م²')}${materialKpi('حوائط صافية بعد الفتحات',q.wallNetM2,'م²')}${materialKpi('أسقف',q.ceilingM2,'م²')}${materialKpi('حمامات — مساحة العزل مع زيادة الوزرة',q.bathFloorM2*(1+positiveNum(r.waterproofUpturnPct)/100),'م² تقديري')}${materialKpi('أبواب',q.doors,'قطعة')}${materialKpi('شبابيك',q.windows,'قطعة')}</div></section><section class="card"><div class="card-head"><div><h3>٤. مقايسة خامات تقديرية</h3><p>معدلات الاستهلاك والهالك مأخوذة من «حصر المقاول والخامات» ويمكن تعديلها هناك.</p></div>${btn('تعديل معدلات الاستهلاك','navigate','btn sm','data-module="materials"')}</div><div class="rate-note">مباني الطوب غير مدرجة تلقائيًا في تقدير الغرف. أضف سجل الحائط الفعلي مرة واحدة لتحصل على عدد الطوب ومونة المباني. العزل المائي في الحمام تقدير مساحة أرضية + 10% هامش؛ ارتفاعات الوزرات والعزل الرأسي تحتاج إدخال مواصفة المشروع.</div>${materialTable(['البند','صافي القياس','طريقة حساب المشتريات','احتياج أولي'],[...q.floorGroups.map(g=>[`أرضيات — ${g.material} ${fmt(g.tileLengthCm)}×${fmt(g.tileWidthCm)} سم`,m2(g.areaM2),`هالك ${fmt(g.wastePct)}%`,`بلاط ${fmt(g.demand.tilePieces)} قطعة · مساحة شراء ${m2(g.demand.orderAreaM2)}`]),['طبقة تثبيت الأرضية',m2(q.floorM2),r.floorMethod==='adhesive'?'لاصق حسب الاستهلاك المدخل':'مونة/سكريد حسب السمك والنسبة',r.floorMethod==='adhesive'?`${fmt(q.floor.adhesiveKg)} كجم لاصق (${fmt(q.floor.adhesiveBags25Kg)} شيكارة)`:`${fmt(q.floor.cementBags)} شيكارة أسمنت + ${fmt(q.floor.sandM3)} م³ رمل`],['المحارة',m2(q.wallNetM2+q.ceilingM2),`سمك ${fmt(r.plasterThicknessMm)} مم، هالك ${fmt(r.plasterWastePct)}%`,`${fmt(q.plaster.cementBags)} شيكارة أسمنت + ${fmt(q.plaster.sandM3)} م³ رمل`],['السيلر',m2(q.wallNetM2+q.ceilingM2),`${fmt(r.sealerCoverageM2L)} م²/لتر`,`${fmt(q.paint.sealerLitres)} لتر`],['المعجون',m2(q.wallNetM2+q.ceilingM2),`${fmt(r.puttyKgM2)} كجم/م²`,`${fmt(q.paint.puttyKg)} كجم (${fmt(q.paint.puttyBags)} شكارة)`],['دهان بلاستيك',m2(q.wallNetM2+q.ceilingM2),`${fmt(r.paintCoats)} أوجه × ${fmt(r.paintCoverageM2L)} م²/لتر`,`${fmt(q.paint.paintLitres)} لتر (${fmt(q.paint.paintPails)} بستلة)`],['عزل أرضيات الحمامات',m2(q.bathFloorM2),`${fmt(r.insulationRateKgM2)} كجم/م² + زيادة وزرة ${fmt(r.waterproofUpturnPct)}% + هالك ${fmt(r.insulationWastePct)}%`,`${fmt(q.waterproof.requiredKg)} كجم (${fmt(q.waterproof.packageCount)} عبوة تقديرًا)`],['الأجهزة الصحية المبدئية','حسب عدد الحمامات والمطابخ','افتراض: لكل حمام قاعدة + حوض + طقم دش، ولكل مطبخ حوض',`${q.toilets} قاعدة WC · ${q.basins} حوض حمام · ${q.showerSets} طقم دش · ${q.kitchenSinks} حوض مطبخ`],['الأبواب والشبابيك','حسب الإدخال في الفراغات','أعداد للتقدير وليست جدول توريد نجارة',`${q.doors} باب · ${q.windows} شباك`]])}<p class="hint">مصادر معدلات البلاط والدهانات/المونة يمكن أن تختلف حسب النشرة والسمك وأسلوب التنفيذ. اعتبر الكميات أعلاه قائمة طلب أولية وليست أمر شراء معتمدًا.</p><div class="form-actions"><button type="button" class="btn primary" data-action="export-estimate">تصدير تقدير الشقة CSV</button><button type="button" class="btn dark" data-action="print-estimate">طباعة التقدير / PDF</button></div></section>`;
 }
 
-function render(){const appRoot=document.querySelector('.app');if(appRoot)appRoot.dataset.activeModule=S.ui.active;modeSwitchRender();nav();$('#projectName').value=S.meta.project||'';const id=S.ui.active;const html=id==='home'?renderHome():id==='materials'?renderMaterials():id==='apartmentEstimate'?renderApartmentEstimate():id==='concrete'?renderConcrete():id==='earthworks'?renderEarthworks():id==='insulation'?renderInsulation():id==='report'?renderReport():id==='masonry'?renderMasonry():['plaster','paint'].includes(id)?roomModule(id):id==='floors'?renderFloors():id==='doorsWindows'?renderDoors():id==='sanitary'?renderSanitary():id==='stairs'?renderStairs():id==='facades'?renderFacades():renderHome();$('#content').innerHTML=auditWarningHtml()+html;persist()}
+function render(){const appRoot=document.querySelector('.app');if(appRoot){appRoot.dataset.activeModule=S.ui.active;appRoot.dataset.mode=S.ui.mode}nav();$('#projectName').value=S.meta.project||'';const id=S.ui.active;const html=id==='home'?renderHome():id==='materials'?renderMaterials():id==='apartmentEstimate'?renderApartmentEstimate():id==='concrete'?renderConcrete():id==='earthworks'?renderEarthworks():id==='insulation'?renderInsulation():id==='report'?renderReport():id==='masonry'?renderMasonry():['plaster','paint'].includes(id)?roomModule(id):id==='floors'?renderFloors():id==='doorsWindows'?renderDoors():id==='sanitary'?renderSanitary():id==='stairs'?renderStairs():id==='facades'?renderFacades():renderHome();$('#content').innerHTML=(S.ui.mode==='welcome'?'':auditWarningHtml())+html;persist()}
 function fieldForm(form){const d=new FormData(form),o={};for(const [k,v] of d.entries())o[k]=v;return o}
 function addOpening(wall,type='باب'){wall.openings=wall.openings||[];const maxWidth=n(wall.length??wall.width),maxHeight=n(wall.height),defaultWidth=type==='باب'?0.9:1.2,defaultHeight=type==='باب'?2.1:1.2;wall.openings.push({id:uid(),type,width:maxWidth>0?Math.min(defaultWidth,maxWidth*0.8):defaultWidth,height:maxHeight>0?Math.min(defaultHeight,maxHeight*0.8):defaultHeight,qty:1})}
 function removeById(arr,id){const i=arr.findIndex(x=>x.id===id);if(i>=0)arr.splice(i,1)}
@@ -630,6 +794,7 @@ function proposedOpeningsFit(wall,openings){const gross=Rules.positive(wall.leng
 function updateNumberOrText(target,key,value){target[key]=['width','height','qty','value','thicknessCm','length','deduction'].includes(key)?n(value):value}
 document.addEventListener('change',e=>{
  const el=e.target;
+ if(el.id==='mobileModuleSelect'&&el.value){S.ui.active=el.value;S.editing={};render();window.scrollTo({top:0,behavior:'smooth'});return}
  if(el.name==='brickMode'){const group=el.closest('form')?.querySelector('[data-brick-custom-fields]');if(group)group.classList.toggle('hide',el.value!=='custom');return}
  if(el.dataset.rate){S.materialRates=S.materialRates||{};const key=el.dataset.rate;const next=el.tagName==='SELECT'?el.value:n(el.value);if(typeof next==='number'&&(!Number.isFinite(next)||next<0)){showToast('معدل الاستهلاك يجب ألا يكون سالبًا.',true);return}S.materialRates[key]=next;persist();render();return}
  if(el.matches('[data-report-scope]')){S.ui.reportScope=el.value;render();return}
@@ -658,7 +823,7 @@ document.addEventListener('change',e=>{
  }
  if(el.dataset.meta){S.meta[el.dataset.meta]=el.value;persist()}
 });
-document.addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;const a=b.dataset.action,id=b.dataset.id,module=b.dataset.module;switch(a){case'set-mode':S.ui.mode=b.dataset.mode;if(S.ui.mode==='engineering')S.ui.active='home';else if(S.ui.mode==='contractor')S.ui.active='materials';else S.ui.active='apartmentEstimate';S.editing={};persist();render();window.scrollTo({top:0,behavior:'smooth'});break;case'delete-estimate-space':if(confirm('حذف هذا الفراغ من التقدير؟')){S.apartmentSpaces=(S.apartmentSpaces||[]).filter(x=>x.id!==id);persist();render();showToast('تم حذف الفراغ من التقدير.')}break;case'navigate':S.ui.active=b.dataset.module;S.editing={};render();window.scrollTo({top:0,behavior:'smooth'});break;case'print':printReport(S.ui.active==='home'?'all':S.ui.active==='report'?(S.ui.reportScope||'all'):S.ui.active);break;case'print-report':printReport(S.ui.active==='report'?(S.ui.reportScope||'all'):'all');break;case'report-csv':exportReportCsv(S.ui.reportScope||'all');break;case'export-json':exportJson();break;case'import-json':$('#importFile').click();break;case'cancel-edit':delete S.editing[module];render();break;case'cancel-room':delete S.editing.room;render();break;case'edit-row':S.editing[module]=id;render();window.scrollTo({top:0,behavior:'smooth'});break;case'delete-row':if(confirm('تأكيد حذف هذا البند؟')){removeById(S[module],id);delete S.editing[module];render();showToast('تم حذف البند.')}break;case'toggle-room':S.ui.expandedRooms=S.ui.expandedRooms.includes(id)?S.ui.expandedRooms.filter(x=>x!==id):[...S.ui.expandedRooms,id];render();break;case'toggle-masonry-wall':S.ui.expandedMasonryWalls=S.ui.expandedMasonryWalls.includes(id)?S.ui.expandedMasonryWalls.filter(x=>x!==id):[...S.ui.expandedMasonryWalls,id];render();break;case'add-masonry-opening':{const w=S.masonryWalls.find(x=>x.id===b.dataset.wall);if(w){addOpening(w);S.ui.expandedMasonryWalls=[...new Set([...S.ui.expandedMasonryWalls,w.id])];render()}break}case'delete-masonry-opening':{const w=S.masonryWalls.find(x=>x.id===b.dataset.wall);if(w){removeById(w.openings,b.dataset.id);render()}break;}case'edit-room':S.editing.room=id;render();$('#roomForm')?.scrollIntoView({behavior:'smooth',block:'center'});break;case'delete-room':if(confirm('حذف الفراغ وكل الحوائط والفتحات التابعة له؟')){removeById(S.rooms,id);S.ui.expandedRooms=S.ui.expandedRooms.filter(x=>x!==id);render();showToast('تم حذف الفراغ.')}break;case'add-wall':{const r=S.rooms.find(x=>x.id===b.dataset.room);if(r){r.walls.push({id:uid(),name:'حائط '+(r.walls.length+1),width:n(r.length),height:n(r.height),thicknessCm:n(r.wallThicknessCm)||12,openings:[]});S.ui.expandedRooms=[...new Set([...S.ui.expandedRooms,r.id])];render()}break}case'delete-wall':{const r=S.rooms.find(x=>x.id===b.dataset.room);if(r&&r.walls.length>1&&confirm('حذف الحائط وفتحات الخصم المرتبطة به؟')){removeById(r.walls,b.dataset.wall);render()}else if(r&&r.walls.length<=1)showToast('لا يمكن حذف آخر حائط بالفراغ.',true);break}case'add-opening':{const r=S.rooms.find(x=>x.id===b.dataset.room),w=r?.walls.find(x=>x.id===b.dataset.wall);if(w){addOpening(w);render()}break}case'delete-opening':{const r=S.rooms.find(x=>x.id===b.dataset.room),w=r?.walls.find(x=>x.id===b.dataset.wall);if(w){removeById(w.openings,b.dataset.id);render()}break}case'toggle-facade':S.ui.expandedFacades=S.ui.expandedFacades.includes(id)?S.ui.expandedFacades.filter(x=>x!==id):[...S.ui.expandedFacades,id];render();break;case'add-facade-opening':{const f=S.facades.find(x=>x.id===b.dataset.facade);if(f){addOpening(f,'شباك');S.ui.expandedFacades=[...new Set([...S.ui.expandedFacades,f.id])];render()}break}case'delete-facade-opening':{const f=S.facades.find(x=>x.id===b.dataset.facade);if(f){removeById(f.openings,b.dataset.id);render()}break}case'delete-finish':{const f=S.facades.find(x=>x.id===b.dataset.facade);if(f){removeById(f.finishes,b.dataset.id);render()}break}case'reset-material-rates':if(confirm('إعادة كل معدلات الاستهلاك إلى القيم الافتراضية؟')){S.materialRates={...(MaterialRules.DEFAULT_MATERIAL_RATES||{})};persist();render();showToast('تمت إعادة المعدلات الافتراضية.')}break;case'export-materials':exportMaterialDemand();break;case'print-materials':printMaterialDemand();break;case'export-estimate':exportApartmentEstimate();break;case'print-estimate':printApartmentEstimate();break;case'export-csv':exportCsv(S.ui.active);break;}}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;const a=b.dataset.action,id=b.dataset.id,module=b.dataset.module;switch(a){case'set-mode':if(!['engineering','contractor','estimate'].includes(b.dataset.mode))break;S.ui.mode=b.dataset.mode;S.ui.active='home';S.editing={};persist();render();window.scrollTo({top:0,behavior:'smooth'});break;case'back-to-start':S.ui.mode='welcome';S.ui.active='home';S.editing={};persist();render();window.scrollTo({top:0,behavior:'smooth'});break;case'delete-estimate-space':if(confirm('حذف هذا الفراغ من التقدير؟')){S.apartmentSpaces=(S.apartmentSpaces||[]).filter(x=>x.id!==id);persist();render();showToast('تم حذف الفراغ من التقدير.')}break;case'navigate':S.ui.active=b.dataset.module;S.editing={};render();window.scrollTo({top:0,behavior:'smooth'});break;case'print':printReport(S.ui.active==='home'?'all':S.ui.active==='report'?(S.ui.reportScope||'all'):S.ui.active);break;case'print-report':printReport(S.ui.active==='report'?(S.ui.reportScope||'all'):'all');break;case'report-csv':exportReportCsv(S.ui.reportScope||'all');break;case'export-json':exportJson();break;case'import-json':$('#importFile').click();break;case'cancel-edit':delete S.editing[module];render();break;case'cancel-room':delete S.editing.room;render();break;case'edit-row':S.editing[module]=id;render();window.scrollTo({top:0,behavior:'smooth'});break;case'delete-row':if(confirm('تأكيد حذف هذا البند؟')){removeById(S[module],id);delete S.editing[module];render();showToast('تم حذف البند.')}break;case'toggle-room':S.ui.expandedRooms=S.ui.expandedRooms.includes(id)?S.ui.expandedRooms.filter(x=>x!==id):[...S.ui.expandedRooms,id];render();break;case'toggle-masonry-wall':S.ui.expandedMasonryWalls=S.ui.expandedMasonryWalls.includes(id)?S.ui.expandedMasonryWalls.filter(x=>x!==id):[...S.ui.expandedMasonryWalls,id];render();break;case'add-masonry-opening':{const w=S.masonryWalls.find(x=>x.id===b.dataset.wall);if(w){addOpening(w);S.ui.expandedMasonryWalls=[...new Set([...S.ui.expandedMasonryWalls,w.id])];render()}break}case'delete-masonry-opening':{const w=S.masonryWalls.find(x=>x.id===b.dataset.wall);if(w){removeById(w.openings,b.dataset.id);render()}break;}case'edit-room':S.editing.room=id;render();$('#roomForm')?.scrollIntoView({behavior:'smooth',block:'center'});break;case'delete-room':if(confirm('حذف الفراغ وكل الحوائط والفتحات التابعة له؟')){removeById(S.rooms,id);S.ui.expandedRooms=S.ui.expandedRooms.filter(x=>x!==id);render();showToast('تم حذف الفراغ.')}break;case'add-wall':{const r=S.rooms.find(x=>x.id===b.dataset.room);if(r){r.walls.push({id:uid(),name:'حائط '+(r.walls.length+1),width:n(r.length),height:n(r.height),thicknessCm:n(r.wallThicknessCm)||12,openings:[]});S.ui.expandedRooms=[...new Set([...S.ui.expandedRooms,r.id])];render()}break}case'delete-wall':{const r=S.rooms.find(x=>x.id===b.dataset.room);if(r&&r.walls.length>1&&confirm('حذف الحائط وفتحات الخصم المرتبطة به؟')){removeById(r.walls,b.dataset.wall);render()}else if(r&&r.walls.length<=1)showToast('لا يمكن حذف آخر حائط بالفراغ.',true);break}case'add-opening':{const r=S.rooms.find(x=>x.id===b.dataset.room),w=r?.walls.find(x=>x.id===b.dataset.wall);if(w){addOpening(w);render()}break}case'delete-opening':{const r=S.rooms.find(x=>x.id===b.dataset.room),w=r?.walls.find(x=>x.id===b.dataset.wall);if(w){removeById(w.openings,b.dataset.id);render()}break}case'toggle-facade':S.ui.expandedFacades=S.ui.expandedFacades.includes(id)?S.ui.expandedFacades.filter(x=>x!==id):[...S.ui.expandedFacades,id];render();break;case'add-facade-opening':{const f=S.facades.find(x=>x.id===b.dataset.facade);if(f){addOpening(f,'شباك');S.ui.expandedFacades=[...new Set([...S.ui.expandedFacades,f.id])];render()}break}case'delete-facade-opening':{const f=S.facades.find(x=>x.id===b.dataset.facade);if(f){removeById(f.openings,b.dataset.id);render()}break}case'delete-finish':{const f=S.facades.find(x=>x.id===b.dataset.facade);if(f){removeById(f.finishes,b.dataset.id);render()}break}case'reset-material-rates':if(confirm('إعادة كل معدلات الاستهلاك إلى القيم الافتراضية؟')){S.materialRates={...(MaterialRules.DEFAULT_MATERIAL_RATES||{})};persist();render();showToast('تمت إعادة المعدلات الافتراضية.')}break;case'export-materials':exportMaterialDemand();break;case'print-materials':printMaterialDemand();break;case'export-estimate':exportApartmentEstimate();break;case'print-estimate':printApartmentEstimate();break;case'export-csv':exportCsv(S.ui.active);break;}}
 );
 function download(name,blob){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1200)}
 function safeName(s){return (s||'BAND-حصر').replace(/[\\/:*?"<>|]/g,'-').slice(0,70)}

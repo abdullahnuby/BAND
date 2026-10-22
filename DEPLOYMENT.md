@@ -32,3 +32,7 @@ Do not put production database URLs in GitHub commits, screenshots, client-side 
 - Output directory: `dist`.
 - API entry: `api/[...path].js`.
 - Node.js: 22.x recommended.
+
+## Welcome-first workflow (2.4.0)
+
+The public entry page is the welcome route rendered inside `public/index.html`. On first visit in a browser tab the UI route opens at `welcome`; workspace refreshes in that tab resume the current route while project/takeoff arrays remain intact. Selecting a route changes `ui.mode` and opens that route's own home workspace. Inner workspace pages provide a `تغيير طريقة العمل` action to return to the route chooser.
