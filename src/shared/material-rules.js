@@ -340,3 +340,86 @@ export function buildMaterialDemand({ state, rates = DEFAULT_MATERIAL_RATES } = 
   facadePanels.groups = facadeGroups;
   return { rates: r, totals: { ...roomTotals, ...masonryByUnit, concreteM3, plainConcreteM3, rccM3, floorM2, insulationM2, facadeModernM2: facadeM2 }, concrete: { rcc: rccIngredients, plain: plainIngredients }, plaster: plasterIngredients, paint, floors: tile, insulation: insulationDemand, masonry: { groups: masonryByUnit.masonryGroups, totalPiecesToOrder: masonryByUnit.piecesToOrder, mortarM3: masonryByUnit.mortarM3 }, timber, facade: facadePanels };
 }
+
+
+/**
+ * Calculate material demand from a contractor's manually entered measured quantity.
+ * This registry stays separate from engineering takeoff rows so a direct entry is
+ * never silently added on top of the same quantity measured elsewhere.
+ * These are estimates; concrete proportions and product coverage must be verified.
+ */
+export function contractorEntryMaterials(entry = {}, rates = DEFAULT_MATERIAL_RATES) {
+  const r = { ...DEFAULT_MATERIAL_RATES, ...(rates || {}) };
+  const kind = String(entry.kind || '');
+  const quantity = positive(entry.quantity);
+  if (!(quantity > 0)) throw new RangeError('الكمية المقاسة يجب أن تكون أكبر من صفر.');
+  const wastePct = rate(entry.wastePct, 0);
+  const common = { kind, label: String(entry.label || '').trim(), quantity, wastePct };
+  const concrete = (mix) => {
+    const prefix = mix === 'plain' ? 'plain' : 'rcc';
+    return concreteMaterials({
+      concreteM3: quantity,
+      mix,
+      cementParts: r[`${prefix}CementParts`],
+      sandParts: r[`${prefix}SandParts`],
+      aggregateParts: r[`${prefix}AggregateParts`],
+      dryVolumeFactor: r.concreteDryVolumeFactor,
+      wastePct,
+      bagKg: r.cementBagKg,
+      cementDensityKgM3: r.cementBulkDensityKgM3,
+    });
+  };
+  switch (kind) {
+    case 'concreteRcc':
+      return { ...common, unit: 'م³', title: 'خرسانة مسلحة', materials: concrete('rcc'), note: 'حساب استرشادي من النسب المدخلة؛ لا يغني عن تصميم الخلطة المعتمد.' };
+    case 'concretePlain':
+      return { ...common, unit: 'م³', title: 'خرسانة عادية', materials: concrete('plain'), note: 'حساب استرشادي من النسب المدخلة؛ راجع المواصفات.' };
+    case 'masonry': {
+      const thicknessCm = positive(entry.thicknessCm) || 12;
+      const brickId = String(entry.brickId || r.brickType || 'red-solid-25x12x6');
+      const mortarM3PerM2 = thicknessCm >= 20 ? r.masonryMortarM3PerM2_25cm : r.masonryMortarM3PerM2_12cm;
+      const masonry = masonryMaterials({ netAreaM2: quantity, thicknessCm, brickId, wastePct, mortarM3PerM2 });
+      const mortar = mortarMaterials({ volumeM3: masonry.mortarM3, cementParts: 1, sandParts: 4, dryVolumeFactor: r.mortarDryVolumeFactor, wastePct: 0, bagKg: r.cementBagKg, cementDensityKgM3: r.cementBulkDensityKgM3 });
+      return { ...common, unit: 'م² وجه', title: 'مباني وطوب', materials: { ...masonry, thicknessCm, brickId, cementBags: mortar.cementBags, sandM3: mortar.sandM3, mortar }, note: 'عدد الطوب ومونة المباني تقديريّان ويتغيران حسب المقاس وفاصل المونة والرباط والمورد.' };
+    }
+    case 'plaster': {
+      const thicknessMm = positive(entry.thicknessMm) || r.plasterThicknessMm;
+      const materials = mortarMaterials({ areaM2: quantity, thicknessMm, cementParts: r.plasterCementParts, sandParts: r.plasterSandParts, dryVolumeFactor: r.mortarDryVolumeFactor, wastePct, bagKg: r.cementBagKg, cementDensityKgM3: r.cementBulkDensityKgM3 });
+      return { ...common, unit: 'م²', title: 'محارة', materials: { ...materials, thicknessMm }, note: 'الاستهلاك يتأثر بسمك المحارة واستواء السطح ونسب الخلطة والهالك.' };
+    }
+    case 'paint': {
+      const materials = paintMaterials({ areaM2: quantity, sealerCoverageM2L: r.sealerCoverageM2L, sealerPailL: r.sealerPailL, puttyKgM2: r.puttyKgM2, puttyBagKg: r.puttyBagKg, paintCoverageM2L: r.paintCoverageM2L, paintCoats: r.paintCoats, paintPailL: r.paintPailL, wastePct });
+      return { ...common, unit: 'م²', title: 'دهانات داخلية', materials, note: 'راجع تغطية المنتج الفعلية وعدد الأوجه ونوع السطح.' };
+    }
+    case 'floor': {
+      const tileLengthCm = positive(entry.tileLengthCm) || r.tileLengthCm;
+      const tileWidthCm = positive(entry.tileWidthCm) || r.tileWidthCm;
+      const method = entry.method === 'adhesive' ? 'adhesive' : 'mortar';
+      const materials = floorMaterials({ areaM2: quantity, tileLengthCm, tileWidthCm, wastePct, method, adhesiveKgM2: r.tileAdhesiveKgM2, groutKgM2: r.groutKgM2, screedThicknessCm: r.screedThicknessCm, cementParts: r.screedCementParts, sandParts: r.screedSandParts, dryVolumeFactor: r.mortarDryVolumeFactor, bagKg: r.cementBagKg, cementDensityKgM3: r.cementBulkDensityKgM3 });
+      return { ...common, unit: 'م²', title: 'أرضيات وبلاط', materials: { ...materials, tileLengthCm, tileWidthCm, method }, note: method === 'adhesive' ? 'احتياج اللاصق والروبة تقديري؛ راجع نشرات المواد وطريقة التركيب.' : 'احتياج المونة والسكريد تقديري حسب السمك والخلطة المدخلين.' };
+    }
+    case 'insulation': {
+      const rateKgM2 = positive(entry.rateKgM2 ?? r.insulationRateKgM2);
+      const packageKg = positive(entry.packageKg) || 20;
+      const materials = insulationMaterials({ areaM2: quantity, rateKgM2, wastePct, packageKg });
+      return { ...common, unit: 'م²', title: 'عزل', materials: { ...materials, packageKg }, note: 'يجب إدخال معدل الاستهلاك من النشرة الفنية لكل منتج عزل على حدة.' };
+    }
+    case 'timberDoor': {
+      const doorWidth = positive(entry.doorWidth), doorHeight = positive(entry.doorHeight);
+      if (!(doorWidth > 0 && doorHeight > 0)) throw new RangeError('أدخل عرض وارتفاع الباب الخشبي بالمتر.');
+      const woodSpecies = String(entry.woodSpecies || 'غير محدد').trim() || 'غير محدد';
+      const materials = timberDoorMaterials({ items: [{ material: 'خشب', woodSpecies, width: doorWidth, height: doorHeight, qty: quantity }], leafThicknessCm: positive(entry.leafThicknessCm) || r.woodDoorLeafThicknessCm, frameWidthCm: positive(entry.frameWidthCm) || r.woodFrameWidthCm, frameDepthCm: positive(entry.frameDepthCm) || r.woodFrameDepthCm, wastePct, hingesPerDoor: r.hingesPerDoor, locksPerDoor: r.locksPerDoor, handlesPerDoor: r.handlesPerDoor });
+      return { ...common, unit: 'باب', title: `نجارة خشب — ${woodSpecies}`, materials, note: 'حجم الضلفة والحلق الأساسي تقديري؛ راجع القطاعات والحليات ونوع الخشب مع النجار.' };
+    }
+    case 'cladding': {
+      const materials = facadePanelMaterials({ areaM2: quantity, panelWidthCm: positive(entry.panelWidthCm) || r.facadePanelWidthCm, panelHeightCm: positive(entry.panelHeightCm) || r.facadePanelHeightCm, wastePct });
+      return { ...common, unit: 'م²', title: 'كلادينج / ألواح واجهات', materials, note: 'عدد الألواح أولي؛ يلزم مخطط تقطيع وقطاعات وفتحات ونظام تثبيت معتمد.' };
+    }
+    case 'glass': {
+      const materials = { netAreaM2: quantity, orderAreaM2: quantity * wasteFactor(wastePct), wastePct: rate(wastePct) };
+      return { ...common, unit: 'م²', title: 'زجاج واجهات', materials, note: 'مساحة الشراء تقديرية؛ جدول التقطيع والسماكة والمعالجة والقطاعات والسلامة تتطلب اعتماد المورد والتصميم.' };
+    }
+    default:
+      throw new RangeError('نوع بند الخامات غير مدعوم.');
+  }
+}

@@ -106,3 +106,46 @@ test('modern facade estimate separates glass from panelized cladding',()=>{
   const cladding=groups.find(g=>g.type==='كلادينج ألواح');
   near(cladding.netAreaM2,17); near(cladding.orderAreaM2,18.7); assert.equal(cladding.panelCount,10);
 });
+
+
+test('direct contractor entry calculates quantities without relying on engineering registers', async () => {
+  const { contractorEntryMaterials } = await import('../src/shared/material-rules.js');
+  const concrete = contractorEntryMaterials({ kind: 'concretePlain', label: 'خرسانة النظافة', quantity: 2, wastePct: 0 }, {});
+  assert.equal(concrete.unit, 'م³');
+  assert.ok(concrete.materials.cementBags > 0);
+  assert.ok(concrete.materials.sandM3 > 0);
+  assert.ok(concrete.materials.aggregateM3 > 0);
+
+  const masonry = contractorEntryMaterials({ kind: 'masonry', label: 'مباني 12 سم', quantity: 10, thicknessCm: 12, brickId: 'red-solid-25x12x6', wastePct: 5 }, {});
+  assert.equal(masonry.materials.netAreaM2, 10);
+  assert.ok(masonry.materials.piecesToOrder > masonry.materials.piecesBeforeWaste);
+  assert.ok(masonry.materials.cementBags > 0);
+  assert.ok(masonry.materials.sandM3 > 0);
+
+  const floor = contractorEntryMaterials({ kind: 'floor', label: 'سيراميك', quantity: 20, tileLengthCm: 60, tileWidthCm: 60, wastePct: 0, method: 'mortar' }, {});
+  assert.equal(floor.materials.tilePieces, 56);
+  assert.ok(floor.materials.cementBags > 0);
+  assert.ok(floor.materials.sandM3 > 0);
+
+  const paint = contractorEntryMaterials({ kind: 'paint', label: 'دهان شقة', quantity: 100, wastePct: 0 }, {});
+  assert.ok(paint.materials.sealerPails > 0);
+  assert.ok(paint.materials.puttyBags > 0);
+  assert.ok(paint.materials.paintPails > 0);
+});
+
+test('direct contractor entries support insulation, wooden doors, cladding, and glass', async () => {
+  const { contractorEntryMaterials } = await import('../src/shared/material-rules.js');
+  const insulation = contractorEntryMaterials({ kind: 'insulation', label: 'عزل حمام', quantity: 12, rateKgM2: 3, packageKg: 20, wastePct: 0 }, {});
+  assert.equal(insulation.materials.requiredKg, 36);
+  assert.equal(insulation.materials.packageCount, 2);
+
+  const timber = contractorEntryMaterials({ kind: 'timberDoor', label: 'باب زان', quantity: 2, doorWidth: 0.9, doorHeight: 2.1, woodSpecies: 'زان', wastePct: 0 }, {});
+  assert.equal(timber.materials.doorsCount, 2);
+  assert.ok(timber.materials.woodOrderM3 > 0);
+  assert.equal(timber.materials.hinges, 6);
+
+  const cladding = contractorEntryMaterials({ kind: 'cladding', label: 'كلادينج', quantity: 24, panelWidthCm: 120, panelHeightCm: 240, wastePct: 0 }, {});
+  assert.equal(cladding.materials.panelCount, 9);
+  const glass = contractorEntryMaterials({ kind: 'glass', label: 'زجاج', quantity: 10, wastePct: 10 }, {});
+  assert.equal(glass.materials.orderAreaM2, 11);
+});

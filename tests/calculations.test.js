@@ -151,3 +151,12 @@ test('server rejects negative deductions and opening dimensions larger than thei
   const wall = { id: 'w1', wallRef: 'W-1', location: 'دور 1 / محور A-B', length: 4, height: 3, thicknessCm: 12, qty: 1, measurementUnit: 'm2', openings: [{ width: 5, height: 2, qty: 1 }] };
   assert.equal(validateWorkspace({ ...base, masonryWalls: [wall] }).ok, false);
 });
+
+
+test('contractor direct entries validate and survive cloud workspace sanitization', () => {
+  const workspace = { version: 5, meta: { project: 'اختبار' }, contractorEntries: [{ id: 'm-1', kind: 'concreteRcc', label: 'خرسانة قواعد', quantity: 3.5, wastePct: 3 }] };
+  assert.equal(validateWorkspace(workspace).ok, true);
+  assert.equal(sanitizeWorkspace(workspace).contractorEntries.length, 1);
+  assert.equal(validateWorkspace({ ...workspace, contractorEntries: [{ id: 'm-1', kind: 'invalid', label: 'بند', quantity: 3, wastePct: 0 }] }).ok, false);
+  assert.equal(validateWorkspace({ ...workspace, contractorEntries: [{ id: 'm-1', kind: 'paint', label: '', quantity: 3, wastePct: 0 }] }).ok, false);
+});

@@ -1,7 +1,7 @@
 import { facadeQuantities, masonryWallQuantities, positive, wallAreas } from '../../shared/quantity-rules.js';
 import { DEFAULT_MATERIAL_RATES } from '../../shared/material-rules.js';
 
-export const WORKSPACE_MODULES = Object.freeze(['rooms', 'masonryWalls', 'concrete', 'earthworks', 'insulation', 'floors', 'doorsWindows', 'sanitary', 'stairs', 'facades', 'apartmentSpaces']);
+export const WORKSPACE_MODULES = Object.freeze(['rooms', 'masonryWalls', 'concrete', 'earthworks', 'insulation', 'floors', 'doorsWindows', 'sanitary', 'stairs', 'facades', 'apartmentSpaces', 'contractorEntries']);
 export const MAX_ITEMS_PER_MODULE = 5_000;
 export const MAX_RECORD_BYTES = 512 * 1024;
 
@@ -107,6 +107,14 @@ export function validateWorkspace(value) {
         seenIdentities.add(identity);
       }
     }
+  }
+
+  const contractorKinds = new Set(['concreteRcc','concretePlain','masonry','plaster','paint','floor','insulation','timberDoor','cladding','glass']);
+  for (const row of value.contractorEntries ?? []) {
+    if (!contractorKinds.has(row.kind)) return { ok: false, message: 'نوع بند الخامات المباشر غير مدعوم.' };
+    if (typeof row.label !== 'string' || !row.label.trim()) return { ok: false, message: 'وصف بند الخامات المباشر مطلوب.' };
+    if (positive(row.quantity) <= 0 || Number(row.wastePct ?? 0) < 0) return { ok: false, message: 'الكمية المباشرة يجب أن تكون موجبة والهالك غير سالب.' };
+    if (row.kind === 'timberDoor' && (positive(row.doorWidth) <= 0 || positive(row.doorHeight) <= 0)) return { ok: false, message: 'أدخل أبعاد الباب الخشبي في بند الخامات المباشر.' };
   }
 
   // Validate room-side finish geometry independently: these are surfaces, not masonry runs.

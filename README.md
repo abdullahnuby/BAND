@@ -123,3 +123,10 @@ All defaults are preliminary budgets rather than approved material submittals. R
 - **Quick apartment estimate:** add each room/kitchen/bathroom by dimensions; estimate floor tiles by floor finish and tile dimensions, plaster/paint, waterproofing, and initial sanitary counts. This path does not infer actual masonry walls from room perimeters.
 
 Default consumption rates are only editable starting assumptions. See [`docs/MATERIAL-RATES.md`](docs/MATERIAL-RATES.md); confirm mixes, packaging, supplier yields, and project-specific measurement rules before procurement.
+
+## BAND 2.4.1 workflow improvements
+
+- The contractor workflow opens directly into the material workbench and supports standalone measured-quantity entries for concrete, masonry, plaster, paint, floor finishes, insulation, timber doors, cladding, and glass. Each entry calculates a separate preliminary procurement breakdown.
+- The apartment-estimate workflow opens directly into the room-dimensions form.
+- Contractor direct entries are deliberately kept separate from engineering takeoff records to avoid automatic double counting; both are available in contractor material exports.
+- Rates and waste are estimates and should be set from the project specification and supplier data.

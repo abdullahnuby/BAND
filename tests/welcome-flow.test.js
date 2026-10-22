@@ -26,7 +26,7 @@ test('global mode chips were removed from the shared application shell', () => {
 });
 
 test('each workflow opens its own workspace home and can return to welcome', () => {
-  assert.match(html, /S\.ui\.mode=b\.dataset\.mode;S\.ui\.active='home'/);
+  assert.match(html, /S\.ui\.mode=b\.dataset\.mode;S\.ui\.active=b\.dataset\.mode==='contractor'\?'materials':b\.dataset\.mode==='estimate'\?'apartmentEstimate':'home'/);
   assert.match(html, /data-action="back-to-start"/);
   assert.match(html, /case'back-to-start':S\.ui\.mode='welcome';S\.ui\.active='home'/);
   assert.match(html, /function modulesForMode\(\)/);
@@ -37,4 +37,15 @@ test('welcome page hides workspace-only controls but preserves saved data', () =
   assert.match(html, /localStorage\.getItem\(STORE\)\|\|localStorage\.getItem\(LEGACY_STORE\)/);
   assert.match(html, /sessionStorage\.setItem\('band-welcome-first-visit-v1','1'\)/);
   assert.match(html, /refreshes inside a workspace resume the current route/i);
+});
+
+
+test('contractor and apartment estimate modes open working entry screens directly', () => {
+  assert.match(html, /S\.ui\.active=b\.dataset\.mode==='contractor'\?'materials':b\.dataset\.mode==='estimate'\?'apartmentEstimate':'home'/);
+  assert.match(html, /id="contractorEntryForm"/);
+  assert.match(html, /function submitContractorEntry\(form\)/);
+  assert.match(html, /case'delete-contractor-entry'/);
+  assert.match(html, /id="estimateSpaceForm"/);
+  assert.match(html, /case'export-estimate'/);
+  assert.match(html, /function contractorEntrySummary\(entry\)/);
 });
