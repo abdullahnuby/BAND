@@ -183,10 +183,29 @@ export function apartmentSpaceQuantities(space) {
   const length = positive(space.length), width = positive(space.width), height = positive(space.height);
   const floorAreaM2 = length * width;
   const grossWallAreaM2 = 2 * (length + width) * height;
-  const openingsAreaM2 = positive(space.doorOpeningsM2) + positive(space.windowOpeningsM2);
-  const openingsFit = openingsAreaM2 <= grossWallAreaM2 + 1e-9;
+  const openingRows = Array.isArray(space.openings) ? space.openings.filter((opening) => opening && typeof opening === 'object') : [];
+  // Prefer individual width × height × count entries. Legacy aggregate areas stay supported for old backups.
+  const hasDetailedOpenings = openingRows.length > 0;
+  const detailArea = (predicate) => openingRows.filter(predicate).reduce((sum, opening) => sum + positive(opening.width) * positive(opening.height) * positive(opening.qty ?? 1), 0);
+  const doorOpeningsM2 = hasDetailedOpenings
+    ? detailArea((opening) => /باب|door/i.test(String(opening.type || '')))
+    : positive(space.doorOpeningsM2);
+  const windowOpeningsM2 = hasDetailedOpenings
+    ? detailArea((opening) => /شباك|window/i.test(String(opening.type || '')))
+    : positive(space.windowOpeningsM2);
+  const otherOpeningsM2 = hasDetailedOpenings
+    ? detailArea((opening) => !/باب|door|شباك|window/i.test(String(opening.type || '')))
+    : positive(space.otherOpeningM2);
+  const openingsAreaM2 = hasDetailedOpenings ? doorOpeningsM2 + windowOpeningsM2 + otherOpeningsM2 : doorOpeningsM2 + windowOpeningsM2 + otherOpeningsM2;
+  const individualOpeningsFit = openingRows.every((opening) =>
+    positive(opening.width) > 0 && positive(opening.height) > 0 && positive(opening.qty ?? 1) > 0 &&
+    positive(opening.width) <= Math.max(length, width) + 1e-9 && positive(opening.height) <= height + 1e-9
+  );
+  const openingsFit = openingsAreaM2 <= grossWallAreaM2 + 1e-9 && individualOpeningsFit;
   const netWallAreaM2 = Math.max(0, grossWallAreaM2 - Math.min(grossWallAreaM2, openingsAreaM2));
-  return { floorAreaM2, ceilingAreaM2: floorAreaM2, grossWallAreaM2, openingsAreaM2, netWallAreaM2, finishAreaM2: netWallAreaM2 + floorAreaM2, openingsFit };
+  const doorCount = hasDetailedOpenings ? openingRows.filter((opening) => /باب|door/i.test(String(opening.type || ''))).reduce((sum, opening) => sum + positive(opening.qty ?? 1), 0) : positive(space.doorQty);
+  const windowCount = hasDetailedOpenings ? openingRows.filter((opening) => /شباك|window/i.test(String(opening.type || ''))).reduce((sum, opening) => sum + positive(opening.qty ?? 1), 0) : positive(space.windowQty);
+  return { floorAreaM2, ceilingAreaM2: floorAreaM2, grossWallAreaM2, doorOpeningsM2, windowOpeningsM2, otherOpeningsM2, openingsAreaM2, netWallAreaM2, finishAreaM2: netWallAreaM2 + floorAreaM2, doorCount, windowCount, openingsFit };
 }
 
 export function apartmentFloorMaterialGroups({ spaces = [], rates = DEFAULT_MATERIAL_RATES } = {}) {

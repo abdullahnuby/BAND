@@ -149,3 +149,30 @@ test('direct contractor entries support insulation, wooden doors, cladding, and 
   const glass = contractorEntryMaterials({ kind: 'glass', label: 'زجاج', quantity: 10, wastePct: 10 }, {});
   assert.equal(glass.materials.orderAreaM2, 11);
 });
+
+test('apartment estimate calculates door and window opening areas from dimensions and counts',()=>{
+  const q=apartmentSpaceQuantities({
+    length:4,width:3.5,height:3,
+    openings:[
+      {type:'باب',width:0.9,height:2.1,qty:1},
+      {type:'شباك',width:1.2,height:1,qty:1},
+    ],
+  });
+  near(q.floorAreaM2,14);
+  near(q.grossWallAreaM2,45);
+  near(q.doorOpeningsM2,1.89);
+  near(q.windowOpeningsM2,1.2);
+  near(q.openingsAreaM2,3.09);
+  near(q.netWallAreaM2,41.91);
+  assert.equal(q.doorCount,1);
+  assert.equal(q.windowCount,1);
+  assert.equal(q.openingsFit,true);
+});
+
+test('apartment estimate rejects an opening wider than the room side or taller than room height',()=>{
+  const q=apartmentSpaceQuantities({
+    length:4,width:3.5,height:3,
+    openings:[{type:'شباك',width:4.5,height:1.2,qty:1}],
+  });
+  assert.equal(q.openingsFit,false);
+});

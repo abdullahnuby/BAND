@@ -1,4 +1,4 @@
-# BAND — Engineering Quantity Takeoff Platform 2.3.0
+# BAND 2.5.0 — Engineering Quantity Takeoff Platform 2.3.0
 
 BAND is an Arabic, RTL-first construction quantity-takeoff workspace. Version 2.1 expands the takeoff into structural concrete, excavation/filling, masonry wall volume by thickness, insulation by selectable unit, finishes, and dedicated measurement-sheet printing. It keeps local browser storage and JSON backup; optional account-based cloud workspaces use PostgreSQL.
 
@@ -139,3 +139,11 @@ Default consumption rates are only editable starting assumptions. See [`docs/MAT
 - Apartment Estimate opens the room/space entry form and live quantity/material summary.
 - Saved legacy state that points at `home` is normalized to the relevant form for these modes.
 - Workflow route policy is tested in `src/shared/workflow-routes.js` and `tests/workflow-routes.test.js`.
+
+
+## 2.5.0 — Simpler workflows
+
+- The apartment estimate takes individual opening type, width, height, and count; it computes opening areas and wall-face deductions for the user.
+- Tile size details, extended estimate calculations, and material consumption rate editing are hidden behind optional advanced sections.
+- The contractor workspace leads with quantity-to-material entry and compact procurement result cards; engineering takeoff summaries are optional.
+- See `docs/RELEASE-NOTES-2.5.0.md`.

@@ -41,3 +41,8 @@ The public entry page is the welcome route rendered inside `public/index.html`. 
 ## Workflow routing regression fix (2.4.4)
 
 The build also publishes `workflow-routes.js`. Do not remove this asset from `dist`; `public/index.html` imports it to normalize persisted routes. Contractor mode must land on `materials`; estimate mode must land on `apartmentEstimate`.
+
+
+## Version 2.5.0
+
+Deploy as usual from the repository root. The build copies `public/index.html` to `dist/index.html` and includes the shared material/quantity rule modules. The apartment opening controls are handled client-side and use the same shared `apartmentSpaceQuantities` calculation for opening area and wall-face net area.
