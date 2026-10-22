@@ -1,4 +1,4 @@
-# BAND — Engineering Quantity Takeoff Platform 2.2.2
+# BAND — Engineering Quantity Takeoff Platform 2.3.0
 
 BAND is an Arabic, RTL-first construction quantity-takeoff workspace. Version 2.1 expands the takeoff into structural concrete, excavation/filling, masonry wall volume by thickness, insulation by selectable unit, finishes, and dedicated measurement-sheet printing. It keeps local browser storage and JSON backup; optional account-based cloud workspaces use PostgreSQL.
 
@@ -94,14 +94,32 @@ npm test
 npm run build
 ```
 
-The 14 tests cover Arabic/decimal parsing, wall/opening deductions, masonry thickness-to-unit suggestions and physical-wall de-duplication, concrete and earthwork volumes, insulation in four measurement units, ceiling treatment, floors, doors/windows, stairs, facades, duplicate records, and workspace validation. The build checks server/API JavaScript syntax and the in-page application script before preparing `dist/`.
+The 26 tests cover Arabic/decimal parsing, wall/opening deductions, masonry thickness-to-unit suggestions and physical-wall de-duplication, concrete and earthwork volumes, insulation in four measurement units, ceiling treatment, floors, doors/windows, stairs, facades, duplicate records, and workspace validation. The build checks server/API JavaScript syntax and the in-page application script before preparing `dist/`.
 
 ## Engineering measurement basis
 
 Read [`docs/MEASUREMENT-RULES.md`](docs/MEASUREMENT-RULES.md) before using output on live work. Wall corner/intersection lengths, opening deduction conventions, backfill compaction, and BOQ units must follow the project contract and specifications. BAND is a geometry-first takeoff aid, not a formally certified or universally contract-compliant measurement engine. Verify quantities against drawings before procurement/valuation/contractual approval. The server currently persists whole workspaces transactionally by replacing each project's module records, which is suitable as an initial cloud-sync design; high-volume collaboration should move to per-record/module mutation endpoints and explicit change events.
 
 
-## Measurement safeguards (2.2.2)
+## Measurement safeguards (2.3.1)
 - 12.5 cm and below suggests m² for masonry; 24.5 cm and above suggests m³. Other wall thicknesses require an explicit unit choice. Contract BOQ rules always override the suggestion.
 - Pre-output audit blocks printing, CSV export, and cloud synchronization for invalid openings, negative/excessive deductions, missing geometry, and clear duplicate records.
 - Exact duplicate detection cannot infer every spatial intersection without axis coordinates or endpoints; these must still be checked against the drawings.
+
+## Work modes in 2.3.1
+
+- **Engineering takeoff** separates room-side finish faces from the one-time physical masonry wall register.
+- **Contractor materials** converts measured quantities into preliminary purchase quantities using editable consumption rates. It includes concrete ingredient budgeting, brick and mortar estimates, plaster/paint, floor material, insulation, timber/accessory quantities, and modern facade panels.
+- **Quick apartment estimate** takes each room, kitchen and bathroom dimensions and estimates finish/material needs. It does not infer masonry from room perimeter because shared walls would be counted more than once.
+- Custom brick sizes, quantities per square metre by wall thickness, wood species grouping, and editable rates are included.
+
+All defaults are preliminary budgets rather than approved material submittals. Reinforced concrete material estimates are not a substitute for an approved mix design; verify manufacturer data sheets, supplier measurements, and contract measurement rules.
+
+
+## Modes
+
+- **Engineering takeoff:** measured quantities with unit/validity checks and independently identified physical masonry walls.
+- **Contractor materials:** editable consumption/waste rates that convert measured quantities into preliminary material needs (cement, sand, aggregate, bricks, paint, insulation, wood/accessories, and facade panel estimates).
+- **Quick apartment estimate:** add each room/kitchen/bathroom by dimensions; estimate floor tiles by floor finish and tile dimensions, plaster/paint, waterproofing, and initial sanitary counts. This path does not infer actual masonry walls from room perimeters.
+
+Default consumption rates are only editable starting assumptions. See [`docs/MATERIAL-RATES.md`](docs/MATERIAL-RATES.md); confirm mixes, packaging, supplier yields, and project-specific measurement rules before procurement.

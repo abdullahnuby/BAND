@@ -113,6 +113,7 @@ test('validates cloud workspace and blocks repeated physical wall identities', (
   assert.equal(clean.unexpected, undefined);
   assert.deepEqual(clean.rooms, workspace.rooms);
   assert.deepEqual(clean.masonryWalls[0].openings, []);
+  assert.equal(validateWorkspace({ ...workspace, apartmentSpaces: [{ id: 'apt-1', name: 'غرفة', length: 4, width: 3, height: 3, tileLengthCm: 0, tileWidthCm: 60 }] }).ok, false);
 });
 
 test('server blocks exact duplicate takeoff rows across modules even when quantities differ', () => {

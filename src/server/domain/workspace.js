@@ -1,6 +1,7 @@
 import { facadeQuantities, masonryWallQuantities, positive, wallAreas } from '../../shared/quantity-rules.js';
+import { DEFAULT_MATERIAL_RATES } from '../../shared/material-rules.js';
 
-export const WORKSPACE_MODULES = Object.freeze(['rooms', 'masonryWalls', 'concrete', 'earthworks', 'insulation', 'floors', 'doorsWindows', 'sanitary', 'stairs', 'facades']);
+export const WORKSPACE_MODULES = Object.freeze(['rooms', 'masonryWalls', 'concrete', 'earthworks', 'insulation', 'floors', 'doorsWindows', 'sanitary', 'stairs', 'facades', 'apartmentSpaces']);
 export const MAX_ITEMS_PER_MODULE = 5_000;
 export const MAX_RECORD_BYTES = 512 * 1024;
 
@@ -202,6 +203,10 @@ export function validateWorkspace(value) {
     if (!quantities.validUnit) return { ok: false, message: `سمك الحائط ${wall.wallRef} لا يحدد وحدة تلقائيًا؛ اختر م² أو م³ حسب المقايسة.` };
     if (!quantities.openingsFit) return { ok: false, message: `مجموع فتحات الحائط ${wall.wallRef} أكبر من مساحة الحائط.` };
     if (Number(wall.deduction ?? 0) < 0 || !quantities.manualDeductionFits) return { ok: false, message: `خصم التقاطعات للحائط ${wall.wallRef} سالب أو أكبر من الكمية المتبقية بعد خصم الفتحات.` };
+    if (wall.brickMode === 'custom') {
+      const spec = wall.brickSpec || {};
+      if (positive(spec.lengthCm) <= 0 || positive(spec.widthCm) <= 0 || positive(spec.heightCm) <= 0 || positive(spec.pcsPerM2_12cm) <= 0 || positive(spec.pcsPerM2_25cm) <= 0) return { ok: false, message: `بيانات الطوب المخصص للحائط ${wall.wallRef} غير مكتملة؛ أدخل المقاسات ومعدل القطع/م².` };
+    }
     // Unit, repeated quantity, opening list and manual intersection deduction are
     // not identity: changing any of them must not allow registering the same run twice.
     const signature = JSON.stringify([
@@ -209,6 +214,22 @@ export function validateWorkspace(value) {
     ]);
     if (wallSignatures.has(signature)) return { ok: false, message: `يبدو أن الحائط ${wall.wallRef} مطابق لحائط مسجل في الموقع نفسه. استخدم مرجع الحائط الأصلي أو صحح الموقع/الأبعاد قبل الحفظ.` };
     wallSignatures.add(signature);
+  }
+  for (const space of value.apartmentSpaces ?? []) {
+    if (!isPlainObject(space) || typeof space.name !== 'string' || !space.name.trim() || positive(space.length) <= 0 || positive(space.width) <= 0 || positive(space.height) <= 0) return { ok: false, message: 'تأكد من اسم وأبعاد كل فراغ في تقدير الشقة.' };
+    const grossWallArea = 2 * (positive(space.length) + positive(space.width)) * positive(space.height);
+    const openings = positive(space.doorOpeningsM2) + positive(space.windowOpeningsM2);
+    if (Number(space.doorOpeningsM2 ?? 0) < 0 || Number(space.windowOpeningsM2 ?? 0) < 0 || openings > grossWallArea + 1e-9) return { ok: false, message: `مساحات فتحات الفراغ ${space.name} سالبة أو أكبر من مسطح الحوائط الإجمالي.` };
+    if (Number(space.doorQty ?? 0) < 0 || Number(space.windowQty ?? 0) < 0) return { ok: false, message: `أعداد الأبواب والشبابيك في ${space.name} لا يمكن أن تكون سالبة.` };
+    if ((space.tileLengthCm !== undefined && positive(space.tileLengthCm) <= 0) || (space.tileWidthCm !== undefined && positive(space.tileWidthCm) <= 0)) return { ok: false, message: `مقاس بلاط الأرضية في ${space.name} يجب أن يكون أكبر من صفر.` };
+  }
+  if (value.materialRates !== undefined) {
+    if (!isPlainObject(value.materialRates)) return { ok: false, message: 'معدلات الاستهلاك غير صالحة.' };
+    for (const [key, rateValue] of Object.entries(value.materialRates)) {
+      if (!(key in DEFAULT_MATERIAL_RATES)) return { ok: false, message: `معدل غير معروف: ${key}.` };
+      if (typeof DEFAULT_MATERIAL_RATES[key] === 'number' && (!Number.isFinite(Number(rateValue)) || Number(rateValue) < 0)) return { ok: false, message: `قيمة معدل ${key} يجب أن تكون رقمًا غير سالب.` };
+      if (typeof DEFAULT_MATERIAL_RATES[key] === 'string' && typeof rateValue !== 'string') return { ok: false, message: `قيمة اختيار ${key} غير صالحة.` };
+    }
   }
   return { ok: true };
 }
@@ -221,9 +242,11 @@ export function sanitizeWorkspace(value) {
       client: safeText(value.meta?.client, 180),
       notes: safeText(value.meta?.notes, 2_000),
     },
-    ui: { active: 'home', expandedRooms: [], expandedFacades: [], expandedMasonryWalls: [], reportScope: 'all' },
+    ui: { active: ['home','materials','apartmentEstimate','concrete','earthworks','masonry','insulation','plaster','paint','floors','doorsWindows','sanitary','stairs','facades','report'].includes(value.ui?.active) ? value.ui.active : 'home', mode: ['engineering','contractor','estimate'].includes(value.ui?.mode) ? value.ui.mode : 'engineering', expandedRooms: [], expandedFacades: [], expandedMasonryWalls: [], reportScope: 'all' },
+    materialRates: { ...DEFAULT_MATERIAL_RATES },
   };
   for (const moduleName of WORKSPACE_MODULES) out[moduleName] = (value[moduleName] ?? []).map((row) => ({ ...row }));
+  if (isPlainObject(value.materialRates)) { for (const key of Object.keys(DEFAULT_MATERIAL_RATES)) { const v=value.materialRates[key]; if (typeof DEFAULT_MATERIAL_RATES[key] === 'number' && Number.isFinite(Number(v)) && Number(v) >= 0) out.materialRates[key]=Number(v); else if (typeof DEFAULT_MATERIAL_RATES[key] === 'string' && typeof v === 'string') out.materialRates[key]=v; } }
   out.masonryWalls = out.masonryWalls.map((wall) => ({ ...wall, openings: Array.isArray(wall.openings) ? wall.openings.map((opening) => ({ ...opening })) : [] }));
   return out;
 }
